@@ -1,0 +1,2206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pipeline Bee · Bill &amp; Regulation Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pb:#F26F22;
+  --pb-dark:#D85A0F;
+  --pb-deep:#A4430A;
+  --pb-50:#FFF9F4;
+  --pb-100:#FFF1E6;
+  --pb-200:#FFDEC2;
+  --pb-300:#FFC08F;
+  --bg:#FFFFFF;
+  --surface:#FBFAF8;
+  --surface-2:#F5F4F1;
+  --border:#ECE9E4;
+  --border-strong:#D9D5CE;
+  --text-1:#191613;
+  --text-2:#57534E;
+  --text-3:#8A8580;
+  --success:#15803D;
+  --success-bg:#DCFCE7;
+  --warning:#A16207;
+  --warning-bg:#FEF3C7;
+  --danger:#B91C1C;
+  --danger-bg:#FEE2E2;
+  --info:#1D4ED8;
+  --info-bg:#DBEAFE;
+  --neutral:#44403C;
+  --neutral-bg:#E7E5E4;
+  --shadow-sm:0 1px 2px rgba(20,15,10,.04);
+  --shadow:0 1px 2px rgba(20,15,10,.04), 0 4px 16px -4px rgba(20,15,10,.08);
+  --shadow-lg:0 1px 2px rgba(20,15,10,.04), 0 16px 40px -8px rgba(20,15,10,.16);
+  --radius:14px;
+  --radius-sm:10px;
+  --radius-lg:20px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text-1);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{min-height:100vh;background:
+  radial-gradient(1200px 600px at 100% -200px, rgba(242,111,34,.07), transparent 60%),
+  radial-gradient(900px 500px at -200px 200px, rgba(242,111,34,.04), transparent 60%),
+  var(--bg);}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:transparent;color:inherit}
+input,select,textarea{font:inherit}
+.serif{font-family:'Fraunces',Georgia,serif;letter-spacing:-.01em}
+
+/* ============== TOP BAR ============== */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:saturate(180%) blur(14px);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-inner{
+  max-width:1480px;margin:0 auto;padding:14px 28px;
+  display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{height:38px;display:flex;align-items:center;justify-content:center}
+.brand-mark svg{display:block;height:100%;width:auto}
+.brand-text{display:flex;flex-direction:column;line-height:1.05}
+.brand-text .name{font-weight:800;font-size:18px;letter-spacing:-.025em;color:var(--pb);font-family:'Inter',system-ui,sans-serif}
+.brand-text .name span{color:var(--pb)}
+.brand-text .tag{font-size:11px;font-weight:500;color:var(--text-3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase}
+
+.search{
+  position:relative;max-width:560px;width:100%;justify-self:center;
+}
+.search input{
+  width:100%;height:42px;border:1px solid var(--border);
+  background:var(--surface);border-radius:12px;
+  padding:0 14px 0 42px;color:var(--text-1);
+  transition:.15s ease;
+}
+.search input::placeholder{color:var(--text-3)}
+.search input:focus{outline:none;border-color:var(--pb);background:#fff;box-shadow:0 0 0 4px rgba(242,111,34,.12)}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-3)}
+.search kbd{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font-size:11px;color:var(--text-3);background:#fff;border:1px solid var(--border);
+  padding:2px 6px;border-radius:6px;font-family:inherit;
+}
+
+.top-actions{display:flex;align-items:center;gap:8px}
+.icon-btn{
+  width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;
+  color:var(--text-2);transition:.15s;position:relative;
+}
+.icon-btn:hover{background:var(--surface-2);color:var(--text-1)}
+.icon-btn .dot{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--pb);box-shadow:0 0 0 2px #fff}
+.live-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--text-2);
+  padding:7px 11px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);
+}
+.live-pill .pulse{width:7px;height:7px;border-radius:50%;background:var(--text-3)}
+.live-pill.is-live{color:var(--success);background:var(--success-bg);border-color:transparent}
+.live-pill.is-live .pulse{background:var(--success);box-shadow:0 0 0 0 rgba(22,163,74,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(22,163,74,.5)}
+  70%{box-shadow:0 0 0 6px rgba(22,163,74,0)}
+  100%{box-shadow:0 0 0 0 rgba(22,163,74,0)}
+}
+
+/* ============== LAYOUT ============== */
+.shell{max-width:1480px;margin:0 auto;padding:28px 28px 80px}
+
+.hero{
+  display:grid;grid-template-columns:1.4fr 1fr;gap:24px;margin-bottom:28px;align-items:stretch;
+}
+.hero-left{
+  background:
+    radial-gradient(800px 400px at 90% -50%, rgba(242,111,34,.18), transparent 60%),
+    linear-gradient(180deg,#FFF7F0 0%, #FFFAF5 100%);
+  border:1px solid var(--pb-200);border-radius:var(--radius-lg);padding:32px 32px;position:relative;overflow:hidden;
+}
+.hero-left::after{
+  content:"";position:absolute;right:-40px;bottom:-40px;width:280px;height:280px;
+  background:radial-gradient(closest-side, rgba(242,111,34,.18), transparent);
+}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--pb-dark);margin-bottom:14px}
+.hero-eyebrow .dot-orange{width:7px;height:7px;border-radius:50%;background:var(--pb)}
+.hero h1{font-family:'Fraunces',serif;font-size:38px;line-height:1.08;letter-spacing:-.025em;margin:0 0 12px;color:var(--text-1);font-weight:600}
+.hero h1 em{font-style:italic;color:var(--pb-dark)}
+.hero p{margin:0;color:var(--text-2);font-size:15px;line-height:1.55;max-width:560px}
+.hero-meta{display:flex;gap:18px;margin-top:22px;flex-wrap:wrap;font-size:13px;color:var(--text-2)}
+.hero-meta div{display:flex;align-items:center;gap:7px}
+.hero-meta svg{color:var(--pb)}
+
+.hero-right{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:108px;
+  transition:.18s;
+}
+.stat:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+.stat .label{font-size:12px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.stat .value{font-family:'Fraunces',serif;font-weight:600;font-size:30px;letter-spacing:-.02em;color:var(--text-1);line-height:1}
+.stat .delta{font-size:12px;color:var(--text-2);display:flex;align-items:center;gap:4px}
+.stat .delta.up{color:var(--success)}
+.stat .delta.down{color:var(--danger)}
+.stat .ico{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:var(--pb-100);color:var(--pb-dark)}
+
+/* ============== TAB BAR ============== */
+.tabs{
+  display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:5px;margin-bottom:20px;width:fit-content;
+}
+.tab{
+  display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:10px;
+  font-size:14px;font-weight:600;color:var(--text-2);transition:.18s;cursor:pointer;
+}
+.tab:hover{color:var(--text-1)}
+.tab.active{background:#fff;color:var(--text-1);box-shadow:var(--shadow-sm)}
+.tab .count{font-size:11px;font-weight:600;background:var(--surface-2);color:var(--text-2);padding:2px 7px;border-radius:999px}
+.tab.active .count{background:var(--pb-100);color:var(--pb-dark)}
+
+/* ============== MAIN GRID ============== */
+.layout{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}
+
+.filters{
+  position:sticky;top:96px;
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;
+}
+.filters h3{font-size:12px;font-weight:700;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px;display:flex;align-items:center;justify-content:space-between}
+.filters h3 button{font-size:11px;color:var(--pb-dark);font-weight:600;letter-spacing:0;text-transform:none}
+.filters h3 button:hover{text-decoration:underline}
+.filter-group{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.filter-group:last-child{margin-bottom:0;padding-bottom:0;border-bottom:0}
+.filter-group .group-title{font-size:13px;font-weight:600;color:var(--text-1);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.chip-row{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 10px;font-size:12px;font-weight:500;
+  border-radius:999px;background:var(--surface-2);color:var(--text-2);
+  border:1px solid transparent;cursor:pointer;transition:.15s;user-select:none;
+}
+.chip:hover{background:var(--surface);color:var(--text-1)}
+.chip.active{background:var(--pb);color:#fff;border-color:var(--pb)}
+.chip.active:hover{background:var(--pb-dark)}
+
+.radio-row{display:flex;flex-direction:column;gap:6px}
+.radio{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2);cursor:pointer;padding:5px 0}
+.radio input{accent-color:var(--pb)}
+
+/* ============== RESULTS ============== */
+.results-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:16px;flex-wrap:wrap}
+.results-count{font-size:14px;color:var(--text-2)}
+.results-count strong{color:var(--text-1);font-weight:700}
+.sort{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2)}
+.sort select{
+  border:1px solid var(--border);background:#fff;padding:7px 28px 7px 12px;border-radius:9px;
+  font-size:13px;color:var(--text-1);
+  appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2357534E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat;background-position:right 9px center;
+}
+
+.cards{display:grid;grid-template-columns:1fr;gap:12px}
+.card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;cursor:pointer;transition:.2s ease;position:relative;
+}
+.card:hover{border-color:var(--pb-200);box-shadow:var(--shadow);transform:translateY(-1px)}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:10px}
+.card-num{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--pb-dark);background:var(--pb-100);padding:4px 9px;border-radius:7px;display:inline-block;flex-shrink:0;font-variant-numeric:tabular-nums;margin-right:10px}
+.card-title{font-size:16px;font-weight:600;line-height:1.35;color:var(--text-1);letter-spacing:-.01em;margin:0}
+.card-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.star-btn,.bell-btn{
+  width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  color:var(--text-3);transition:.15s;
+}
+.star-btn:hover,.bell-btn:hover{background:var(--surface-2);color:var(--pb-dark)}
+.star-btn.active{color:var(--pb)}
+.bell-btn.active{color:var(--pb);background:var(--pb-100)}
+
+/* Email alert sliding bar */
+.alert-bar{
+  position:fixed;left:50%;bottom:24px;
+  transform:translateX(-50%) translateY(140%);
+  background:#fff;border:1px solid var(--pb-200);
+  border-radius:14px;box-shadow:0 24px 60px -16px rgba(20,15,10,.28);
+  padding:12px 12px 12px 14px;z-index:110;
+  max-width:600px;width:calc(100% - 32px);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1);
+  display:flex;align-items:center;gap:10px;
+}
+.alert-bar.open{transform:translateX(-50%) translateY(0)}
+.alert-bar .ab-ico{
+  width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--pb),var(--pb-dark));color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 16px -6px rgba(242,111,34,.5);
+}
+.alert-bar .ab-body{flex:1;min-width:0;line-height:1.3}
+.alert-bar .ab-body .ab-title{font-size:13px;font-weight:700;color:var(--text-1)}
+.alert-bar .ab-body .ab-sub{font-size:12px;color:var(--text-2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.alert-bar input[type=email]{
+  height:36px;border:1px solid var(--border);background:#fff;border-radius:9px;
+  padding:0 12px;font-size:13px;min-width:0;flex:0 1 230px;color:var(--text-1);
+}
+.alert-bar input[type=email]:focus{outline:none;border-color:var(--pb);box-shadow:0 0 0 3px rgba(242,111,34,.14)}
+.alert-bar .btn-ok{
+  height:36px;padding:0 16px;background:var(--pb);color:#fff;border-radius:9px;font-size:13px;font-weight:600;border:0;cursor:pointer;
+  box-shadow:0 6px 16px -8px rgba(242,111,34,.6);
+}
+.alert-bar .btn-ok:hover{background:var(--pb-dark)}
+.alert-bar .btn-x{
+  width:30px;height:30px;border-radius:7px;color:var(--text-3);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.alert-bar .btn-x:hover{background:var(--surface-2);color:var(--text-1)}
+@media (max-width:680px){
+  .alert-bar{flex-wrap:wrap}
+  .alert-bar .ab-body{flex:1 1 100%}
+  .alert-bar input[type=email]{flex:1 1 0}
+}
+.card-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--text-2);margin-bottom:12px}
+.card-meta div{display:flex;align-items:center;gap:6px}
+.card-meta svg{color:var(--text-3)}
+.party{font-weight:600;font-size:11px;padding:1px 6px;border-radius:5px;letter-spacing:.04em}
+.party.D{background:#DBEAFE;color:#1D4ED8}
+.party.R{background:#FEE2E2;color:#B91C1C}
+.party.I{background:#E7E5E4;color:#44403C}
+
+.status{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  padding:4px 9px;border-radius:6px;
+}
+.status .pip{width:6px;height:6px;border-radius:50%;background:currentColor}
+.status.s-introduced{background:var(--neutral-bg);color:var(--neutral)}
+.status.s-committee{background:var(--info-bg);color:var(--info)}
+.status.s-floor{background:#EDE9FE;color:#6D28D9}
+.status.s-passed-chamber{background:#FFEDD5;color:#C2410C}
+.status.s-passed-both{background:var(--success-bg);color:var(--success)}
+.status.s-signed{background:#D1FAE5;color:#047857}
+.status.s-failed{background:var(--danger-bg);color:var(--danger)}
+.status.s-active{background:var(--success-bg);color:var(--success)}
+.status.s-proposed{background:var(--warning-bg);color:var(--warning)}
+.status.s-final{background:#D1FAE5;color:#047857}
+
+.tag{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:6px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border)}
+
+.summary{
+  display:flex;gap:10px;align-items:flex-start;
+  background:linear-gradient(180deg, var(--pb-50), #fff);
+  border:1px solid var(--pb-200);border-radius:11px;padding:11px 13px;margin-top:12px;
+}
+.summary .ai-badge{
+  flex-shrink:0;width:24px;height:24px;border-radius:7px;
+  background:linear-gradient(135deg,var(--pb),var(--pb-dark));color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+  box-shadow:0 4px 10px -3px rgba(242,111,34,.5);
+}
+.summary p{margin:0;font-size:13px;line-height:1.5;color:var(--text-1)}
+.summary p strong{color:var(--pb-dark);font-weight:700}
+
+.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border);font-size:12px;color:var(--text-3)}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px}
+
+.empty{
+  text-align:center;padding:80px 20px;color:var(--text-3);
+  background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius);
+}
+.empty .ico{margin:0 auto 10px;width:48px;height:48px;border-radius:12px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-3)}
+.empty h4{margin:0 0 6px;color:var(--text-1);font-size:16px}
+
+/* ============== DETAIL DRAWER ============== */
+.scrim{position:fixed;inset:0;background:rgba(20,15,10,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:80}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;height:100%;width:min(720px,96vw);
+  background:#fff;z-index:90;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.7,.2,1);
+  box-shadow:-30px 0 80px -20px rgba(20,15,10,.25);overflow-y:auto;
+}
+.drawer.open{transform:translateX(0)}
+.drawer-head{
+  position:sticky;top:0;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+  z-index:1;padding:18px 28px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.drawer-head .num{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--pb-dark);background:var(--pb-100);padding:5px 10px;border-radius:7px}
+.drawer-head .actions{display:flex;gap:6px}
+.drawer-body{padding:24px 28px 60px}
+.drawer h2{font-family:'Fraunces',serif;font-weight:600;font-size:26px;line-height:1.2;letter-spacing:-.015em;margin:0 0 8px}
+.drawer .sub{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--text-2);align-items:center;margin-bottom:20px}
+.drawer .sub > *{display:flex;align-items:center;gap:6px}
+.drawer .sub svg{color:var(--text-3)}
+
+.section{margin-top:28px}
+.section h3{font-size:13px;font-weight:700;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.section h3 svg{color:var(--pb)}
+
+.ai-block{
+  background:linear-gradient(180deg, var(--pb-50), #fff);
+  border:1px solid var(--pb-200);border-radius:14px;padding:18px 20px;
+}
+.ai-block .badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--pb-dark);margin-bottom:8px}
+.ai-block .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--pb)}
+.ai-block p{margin:0 0 10px;font-size:14.5px;line-height:1.6;color:var(--text-1)}
+.ai-block p:last-child{margin-bottom:0}
+.ai-block ul{margin:8px 0 0;padding-left:20px}
+.ai-block li{font-size:14px;line-height:1.55;margin-bottom:5px;color:var(--text-1)}
+
+.impact{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.impact h4{margin:0 0 8px;font-size:14px;font-weight:700;color:var(--text-1)}
+.impact p{margin:0;font-size:14px;line-height:1.55;color:var(--text-2)}
+
+.timeline{position:relative;padding-left:22px}
+.timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--border)}
+.tline{position:relative;padding:6px 0 16px}
+.tline:last-child{padding-bottom:0}
+.tline::before{content:"";position:absolute;left:-22px;top:8px;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--border-strong)}
+.tline.cur::before{background:var(--pb);border-color:var(--pb);box-shadow:0 0 0 4px var(--pb-100)}
+.tline .date{font-size:12px;color:var(--text-3);font-weight:500}
+.tline .what{font-size:14px;color:var(--text-1);margin-top:2px}
+
+.kvs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.kv{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:12px 14px}
+.kv .k{font-size:11px;color:var(--text-3);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.kv .v{font-size:14px;color:var(--text-1);font-weight:500}
+
+/* ============== MODAL ============== */
+.modal{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(20,15,10,.45);z-index:100;opacity:0;pointer-events:none;transition:opacity .2s;
+  padding:20px;
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal .panel{
+  background:#fff;border-radius:16px;max-width:520px;width:100%;
+  box-shadow:0 30px 80px -20px rgba(20,15,10,.4);overflow:hidden;
+  transform:translateY(8px);transition:transform .25s;
+}
+.modal.open .panel{transform:translateY(0)}
+.modal h3{font-family:'Fraunces',serif;font-weight:600;font-size:22px;letter-spacing:-.01em;margin:0 0 4px}
+.modal .panel-head{padding:24px 26px 16px;border-bottom:1px solid var(--border)}
+.modal .panel-head p{margin:0;color:var(--text-2);font-size:13.5px;line-height:1.5}
+.modal .panel-body{padding:22px 26px}
+.modal .panel-foot{padding:14px 26px 22px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--border);background:var(--surface)}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--text-1);margin-bottom:6px}
+.field .hint{font-size:12px;color:var(--text-3);margin-top:5px;line-height:1.45}
+.field .hint a{color:var(--pb-dark);text-decoration:underline}
+.field input[type=text],.field input[type=password]{
+  width:100%;height:40px;border:1px solid var(--border);border-radius:9px;padding:0 12px;
+  font-size:14px;color:var(--text-1);background:#fff;
+}
+.field input:focus{outline:none;border-color:var(--pb);box-shadow:0 0 0 3px rgba(242,111,34,.14)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  height:38px;padding:0 16px;border-radius:9px;font-size:13px;font-weight:600;
+  transition:.15s;cursor:pointer;
+}
+.btn-primary{background:var(--pb);color:#fff;box-shadow:0 6px 16px -8px rgba(242,111,34,.6)}
+.btn-primary:hover{background:var(--pb-dark)}
+.btn-ghost{background:transparent;color:var(--text-2)}
+.btn-ghost:hover{background:var(--surface-2);color:var(--text-1)}
+.btn-secondary{background:var(--surface-2);color:var(--text-1);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--border)}
+
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(40px);
+  background:#191613;color:#fff;font-size:13.5px;font-weight:500;
+  padding:11px 18px;border-radius:10px;z-index:120;box-shadow:0 16px 30px -8px rgba(0,0,0,.4);
+  opacity:0;transition:.25s;display:flex;align-items:center;gap:8px;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{background:#7F1D1D}
+
+/* ============== FOOTER ============== */
+.footer{
+  margin-top:60px;border-top:1px solid var(--border);padding:26px 28px;
+  display:flex;align-items:center;justify-content:space-between;color:var(--text-3);font-size:12.5px;flex-wrap:wrap;gap:12px;
+  max-width:1480px;margin-left:auto;margin-right:auto;
+}
+.footer a:hover{color:var(--pb-dark)}
+.footer-brand{display:flex;align-items:center;gap:8px;color:var(--pb);font-weight:700}
+.footer-brand svg{display:block;height:18px;width:auto}
+
+@media (max-width:1180px){
+  .hero{grid-template-columns:1fr}
+  .layout{grid-template-columns:240px 1fr}
+}
+@media (max-width:880px){
+  .topbar-inner{grid-template-columns:auto auto;gap:14px;padding:12px 18px}
+  .search{grid-column:1/-1;order:3;justify-self:stretch;max-width:none}
+  .shell{padding:18px 18px 60px}
+  .hero-left{padding:24px}
+  .hero h1{font-size:30px}
+  .hero-right{grid-template-columns:1fr 1fr}
+  .layout{grid-template-columns:1fr}
+  .filters{position:static}
+  .kvs{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- =========================== TOP BAR =========================== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-mark" title="Pipeline Bee">
+        <!-- Pipeline Bee logo mark -->
+        <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Lid: flat top, cut-corner bottom -->
+          <path d="M14 8 H86 V16 L82 20 H18 L14 16 Z" fill="#F26F22"/>
+          <!-- Body: trapezoidal cup with curved/rounded bottom -->
+          <path d="M16 24 H84 L80 102 Q80 116 60 120 L40 120 Q20 116 20 102 Z" fill="#F26F22"/>
+          <!-- Pill-shaped slots, evenly spaced, decreasing width -->
+          <rect x="24" y="34" width="52" height="8" rx="4" fill="#ffffff"/>
+          <rect x="26" y="48" width="48" height="8" rx="4" fill="#ffffff"/>
+          <rect x="29" y="62" width="42" height="8" rx="4" fill="#ffffff"/>
+          <rect x="32" y="76" width="36" height="8" rx="4" fill="#ffffff"/>
+          <rect x="36" y="90" width="28" height="8" rx="4" fill="#ffffff"/>
+          <!-- Small oval at the very bottom -->
+          <ellipse cx="50" cy="108" rx="11" ry="3.5" fill="#ffffff"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="name">Pipeline <span>Bee</span></div>
+        <div class="tag">Bill &amp; Regulation Intelligence</div>
+      </div>
+    </div>
+
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="Search bills, regulations, sponsors, or topics…" autocomplete="off" />
+      <kbd>⌘K</kbd>
+    </div>
+
+    <div class="top-actions">
+      <span id="livePill" class="live-pill" title="Data source"><span class="pulse"></span><span id="livePillLabel">Demo data</span></span>
+      <button class="icon-btn" id="watchlistBtn" title="Watchlist" aria-label="Watchlist">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span id="watchDot" class="dot" style="display:none"></span>
+      </button>
+      <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- =========================== MAIN =========================== -->
+<main class="shell">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><span class="dot-orange"></span>Live · 119th Congress</div>
+      <h1 class="serif">Track every bill, rule, and order <em>that touches your campaign.</em></h1>
+      <p>Pipeline Bee's legislative intelligence brings together federal bills, agency regulations, state legislation, and executive orders — with plain-English AI summaries that tell you, in one paragraph, what each one actually does and why it matters to your committee.</p>
+      <div class="hero-meta">
+        <div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Updated <span id="updatedAt">moments ago</span></div>
+        <div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3zM3 10h18v4H3zM3 17h18v4H3z"/></svg><span id="srcCountFooter">Congress.gov · Federal Register · OpenStates</span></div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="stat">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="label">Items tracked</div>
+          <div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div>
+        </div>
+        <div class="value" id="statTotal">—</div>
+        <div class="delta up">+24 in the last 7 days</div>
+      </div>
+      <div class="stat">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="label">Actions today</div>
+          <div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        </div>
+        <div class="value" id="statActions">—</div>
+        <div class="delta up">7 floor votes scheduled</div>
+      </div>
+      <div class="stat">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="label">On your watchlist</div>
+          <div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+        </div>
+        <div class="value" id="statWatch">0</div>
+        <div class="delta">Tap the flag on any item</div>
+      </div>
+      <div class="stat">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="label">High-impact</div>
+          <div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4.5L6 21l1.5-7.5L2 9h7z"/></svg></div>
+        </div>
+        <div class="value" id="statHigh">—</div>
+        <div class="delta up">12 advanced this week</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="federal" role="tab"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h18M5 22V10l7-7 7 7v12M9 22V13h6v9"/></svg>Federal Bills <span class="count" data-count="federal">0</span></button>
+    <button class="tab" data-tab="regulations" role="tab"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6M9 9h2"/></svg>Regulations <span class="count" data-count="regulations">0</span></button>
+    <button class="tab" data-tab="state" role="tab"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>State Legislation <span class="count" data-count="state">0</span></button>
+    <button class="tab" data-tab="executive" role="tab"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10l9-7 9 7M5 10v11M19 10v11M9 21v-6h6v6"/></svg>Executive Orders <span class="count" data-count="executive">0</span></button>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+
+    <aside class="filters">
+      <h3>Filters <button id="clearFilters">Clear all</button></h3>
+
+      <div class="filter-group">
+        <div class="group-title">Issue area</div>
+        <div class="chip-row" id="issueChips"></div>
+      </div>
+
+      <div class="filter-group">
+        <div class="group-title">Status</div>
+        <div class="chip-row" id="statusChips"></div>
+      </div>
+
+      <div class="filter-group" data-only="federal,state">
+        <div class="group-title">Chamber</div>
+        <div class="radio-row" id="chamberRow">
+          <label class="radio"><input type="radio" name="chamber" value="any" checked> Any chamber</label>
+          <label class="radio"><input type="radio" name="chamber" value="House"> House</label>
+          <label class="radio"><input type="radio" name="chamber" value="Senate"> Senate</label>
+        </div>
+      </div>
+
+      <div class="filter-group" data-only="federal,state">
+        <div class="group-title">Sponsor party</div>
+        <div class="chip-row" id="partyChips">
+          <span class="chip" data-party="D">Democrat</span>
+          <span class="chip" data-party="R">Republican</span>
+          <span class="chip" data-party="I">Independent</span>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="group-title">Watchlist only</div>
+        <div class="chip-row">
+          <span class="chip" id="watchOnly"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>Show saved</span>
+        </div>
+      </div>
+    </aside>
+
+    <section>
+      <div class="results-head">
+        <div class="results-count"><strong id="resultsCount">0</strong> items · <span id="filterSummary">all categories</span></div>
+        <div class="sort">
+          <label for="sortSel">Sort</label>
+          <select id="sortSel">
+            <option value="recent">Most recent action</option>
+            <option value="impact">Highest impact</option>
+            <option value="introduced">Newly introduced</option>
+            <option value="alpha">Alphabetical</option>
+          </select>
+        </div>
+      </div>
+      <div class="cards" id="results"></div>
+    </section>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">
+      <span>&copy; 2026 Pipeline Bee</span>
+    </div>
+    <div>Data: <span id="srcCount2">Congress.gov · Federal Register · OpenStates</span></div>
+  </div>
+</main>
+
+<!-- =========================== DRAWER =========================== -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <span class="num" id="dNum">—</span>
+    <div class="actions">
+      <button class="icon-btn" id="dBellBtn" title="Get email alerts">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <button class="icon-btn" id="dStarBtn" title="Save to watchlist">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </button>
+      <a class="icon-btn" id="dExternal" target="_blank" rel="noopener" title="Open source">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+      <button class="icon-btn" id="dClose" title="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<!-- =========================== SETTINGS MODAL =========================== -->
+<div class="modal" id="settingsModal" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="panel-head">
+      <h3 class="serif">Connect live data</h3>
+      <p>Pipeline Bee runs on a curated demo set out of the box. Plug in API keys below to flip individual sources to live. All keys are free and stored locally in your browser.</p>
+    </div>
+    <div class="panel-body">
+      <div class="field">
+        <label for="apiKeyInput">Congress.gov API key <span style="font-weight:500;color:var(--text-3);font-size:12px">· federal bills</span></label>
+        <input id="apiKeyInput" type="password" placeholder="Paste your api.congress.gov key…" autocomplete="off"/>
+        <div class="hint">Don't have one? <a href="https://api.congress.gov/sign-up/" target="_blank" rel="noopener">Get a free key in 30 seconds →</a></div>
+      </div>
+      <div class="field">
+        <label for="osKeyInput">OpenStates API key <span style="font-weight:500;color:var(--text-3);font-size:12px">· state legislation</span></label>
+        <input id="osKeyInput" type="password" placeholder="Paste your OpenStates key…" autocomplete="off"/>
+        <div class="hint">All 50 state legislatures. <a href="https://openstates.org/accounts/profile/" target="_blank" rel="noopener">Free key — 500 requests/day →</a></div>
+      </div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+          <input id="liveRegs" type="checkbox" checked style="accent-color:var(--pb)"/>
+          Pull live federal regulations &amp; executive orders from the Federal Register <span style="font-size:11px;color:var(--text-3);font-weight:500">(no key needed)</span>
+        </label>
+      </div>
+      <div class="field">
+        <label for="webhookInput">Formspree endpoint <span style="font-weight:500;color:var(--text-3);font-size:12px">· for email alerts</span></label>
+        <input id="webhookInput" type="text" placeholder="https://formspree.io/f/your-form-id" autocomplete="off"/>
+        <div class="hint">Sign up at <a href="https://formspree.io/" target="_blank" rel="noopener">formspree.io</a>, create a new form, and paste its endpoint URL here. Each alert signup gets POSTed to Formspree, which forwards the email + bill details to your inbox so you can follow up. Leave blank to keep signups in-browser only.</div>
+      </div>
+    </div>
+    <div class="panel-foot">
+      <button class="btn btn-ghost" id="closeSettings">Cancel</button>
+      <button class="btn btn-primary" id="saveSettings">Save & sync</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================== EMAIL ALERT BAR =========================== -->
+<div class="alert-bar" id="alertBar" role="dialog" aria-label="Set up email alerts">
+  <div class="ab-ico">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+  </div>
+  <div class="ab-body">
+    <div class="ab-title">Get email alerts on this item</div>
+    <div class="ab-sub" id="alertContext">—</div>
+  </div>
+  <input id="alertEmailInput" type="email" placeholder="you@example.com" autocomplete="email">
+  <button class="btn-ok" id="alertOkBtn">OK</button>
+  <button class="btn-x" id="alertCloseBtn" title="Cancel" aria-label="Cancel">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   PIPELINE BEE · BILL & REGULATION INTELLIGENCE
+   ============================================================ */
+
+/* ============================================================
+   ⬇⬇⬇  PASTE YOUR KEYS HERE  ⬇⬇⬇
+   These act as defaults for every visitor so they see live data
+   immediately on page load. Individual users can still override
+   them via the Settings panel.
+   ============================================================ */
+const DEFAULT_CONGRESS_KEY   = 'xUmG70ZIc7IOtheVvdhWtOIuGZwaq4rms1Z3WsgB';   // https://api.congress.gov/sign-up/
+const DEFAULT_OPENSTATES_KEY = 'f7fa8e31-7169-4190-bad3-22b630579663';       // https://openstates.org/accounts/profile/
+const DEFAULT_FORMSPREE_URL  = 'https://formspree.io/f/xojrjevr';             // e.g. https://formspree.io/f/xyzabcde
+/* ============================================================
+   ⬆⬆⬆  PASTE YOUR KEYS HERE  ⬆⬆⬆
+   ============================================================ */
+
+const STATUS_LABELS = {
+  introduced:'Introduced', committee:'In Committee', floor:'Floor Action',
+  'passed-chamber':'Passed Chamber', 'passed-both':'Passed Both Chambers',
+  signed:'Signed Into Law', failed:'Failed / Withdrawn',
+  proposed:'Proposed Rule', active:'Active Rule', final:'Final Rule'
+};
+
+const ISSUES = [
+  'Healthcare','Tax','Energy & Climate','Defense','Immigration','Education',
+  'Tech & AI','Privacy','Trade','Agriculture','Labor','Infrastructure',
+  'Voting Rights','Criminal Justice','Banking','Foreign Affairs'
+];
+
+/* ============== DEMO DATA (rich, realistic, broad-coverage) ============== */
+const DEMO = {
+  federal: [
+    {
+      id:'hr-2841', num:'H.R. 2841', chamber:'House', congress:119,
+      title:'AI Transparency and Accountability Act of 2026',
+      sponsor:{name:'Rep. Jennifer Wexton', party:'D', state:'VA-10'},
+      cosponsors:48, issues:['Tech & AI','Privacy'],
+      status:'committee', introduced:'2026-03-12', lastAction:'2026-04-28',
+      lastActionText:'Referred to House Subcommittee on Innovation, Data, and Commerce',
+      summary:'Requires developers of frontier AI models with more than 10^25 training FLOPs to register with NIST, share pre-deployment safety test results, and disclose training data categories. Creates a federal preemption shield for compliant developers against state-level AI laws.',
+      provisions:[
+        'NIST registration and biannual safety reporting for frontier models',
+        'Mandatory red-team disclosures within 30 days of deployment',
+        'Federal preemption of conflicting state AI disclosure laws',
+        '$140M authorization for NIST AI Safety Institute through 2030',
+        'Civil penalties up to $1M per violation'
+      ],
+      impact:'High salience for any campaign in tech-heavy districts (CA-12, WA-07, MA-05). Bipartisan-curious — moderate Republicans on E&C have signaled openness. A floor vote would force tech-policy positioning before the cycle.',
+      timeline:[
+        {date:'2026-04-28', text:'Referred to Subcommittee on Innovation, Data, and Commerce', cur:true},
+        {date:'2026-04-02', text:'Hearings held in House Energy & Commerce'},
+        {date:'2026-03-12', text:'Introduced in House and referred to Committee on Energy & Commerce'}
+      ],
+      impactScore:88, url:'https://www.congress.gov/bill/119th-congress/house-bill/2841'
+    },
+    {
+      id:'s-1102', num:'S. 1102', chamber:'Senate', congress:119,
+      title:'Prescription Drug Pricing Transparency Expansion Act',
+      sponsor:{name:'Sen. Bernie Sanders', party:'I', state:'VT'},
+      cosponsors:22, issues:['Healthcare'],
+      status:'floor', introduced:'2026-02-04', lastAction:'2026-04-30',
+      lastActionText:'Cloture motion filed; vote expected next week',
+      summary:'Expands the Inflation Reduction Act\'s drug price negotiation authority from 20 to 50 drugs annually starting in 2028, lowers the eligibility threshold from 9 to 5 years post-launch, and applies negotiated prices to commercial insurance markets — not just Medicare.',
+      provisions:[
+        'Triples the size of the Medicare negotiation list',
+        'Extends negotiated prices to ACA marketplace plans',
+        'Caps insulin at $25/month across all insurance types',
+        'Requires PBM rebate transparency disclosures',
+        'CBO score: $134B in federal savings over 10 years'
+      ],
+      impact:'Top-tier salience in suburban swing districts where senior turnout drives margins. Drug pricing polls 70%+ favorable across party lines. Watch for amendments stripping commercial market provisions — a known fault line.',
+      timeline:[
+        {date:'2026-04-30', text:'Cloture motion filed by Majority Leader', cur:true},
+        {date:'2026-03-18', text:'Reported favorably out of HELP Committee, 14-7'},
+        {date:'2026-02-04', text:'Introduced in Senate; referred to HELP'}
+      ],
+      impactScore:94, url:'https://www.congress.gov/bill/119th-congress/senate-bill/1102'
+    },
+    {
+      id:'hr-1', num:'H.R. 1', chamber:'House', congress:119,
+      title:'Securing American Energy Independence Act',
+      sponsor:{name:'Rep. Cathy McMorris Rodgers', party:'R', state:'WA-05'},
+      cosponsors:104, issues:['Energy & Climate','Infrastructure'],
+      status:'passed-chamber', introduced:'2026-01-09', lastAction:'2026-04-15',
+      lastActionText:'Passed House 218-209; received in the Senate',
+      summary:'Reverses Biden-era LNG export pause, streamlines NEPA permitting to 1-year max for grid and pipeline projects, restores full oil & gas leasing on federal lands, and authorizes $40B in transmission line buildout. Eliminates EPA tailpipe emissions rule for model years 2027+.',
+      provisions:[
+        'Permanent end to LNG export permit moratorium',
+        'NEPA review capped at 12 months for energy infrastructure',
+        'Mandatory quarterly federal oil & gas lease sales',
+        '$40B in DOE loan guarantees for new transmission',
+        'Repeals EPA Light-Duty Vehicle Multi-Pollutant Standards'
+      ],
+      impact:'Defining vote of the cycle for energy-state campaigns. Splits the Senate caucus — at least 4 Senate Ds from production states (PA, OH, NM) under cross-pressure. Expect heavy IE spend tying members to either side.',
+      timeline:[
+        {date:'2026-04-15', text:'Passed House 218-209; received in Senate', cur:true},
+        {date:'2026-03-22', text:'Reported out of Energy & Commerce, 31-22'},
+        {date:'2026-01-09', text:'Introduced as opening bill of 119th Congress'}
+      ],
+      impactScore:91, url:'https://www.congress.gov/bill/119th-congress/house-bill/1'
+    },
+    {
+      id:'s-748', num:'S. 748', chamber:'Senate', congress:119,
+      title:'Border Security and Asylum Reform Act of 2026',
+      sponsor:{name:'Sen. James Lankford', party:'R', state:'OK'},
+      cosponsors:31, issues:['Immigration'],
+      status:'committee', introduced:'2026-01-30', lastAction:'2026-04-22',
+      lastActionText:'Markup scheduled in Senate Judiciary, May 14',
+      summary:'Reinstates Migrant Protection Protocols, raises the asylum credible-fear standard from "significant possibility" to "more likely than not", caps annual asylum grants at 50,000, and authorizes $24B for 700 additional miles of border barrier and 4,200 new CBP officers.',
+      provisions:[
+        'Statutory MPP / "Remain in Mexico" reinstatement',
+        'Higher credible-fear screening standard',
+        '50,000 hard cap on annual affirmative asylum grants',
+        '$24B border barrier and personnel authorization',
+        'Mandatory E-Verify for all employers with 10+ employees'
+      ],
+      impact:'Border districts (TX-15, TX-23, AZ-06) make-or-break. Bill includes E-Verify provisions that have historically split Republican business and ag interests. Markup attendance and amendment votes will be widely IE-tracked.',
+      timeline:[
+        {date:'2026-04-22', text:'Markup scheduled, May 14', cur:true},
+        {date:'2026-03-04', text:'Hearings held with DHS Secretary'},
+        {date:'2026-01-30', text:'Introduced and referred to Judiciary'}
+      ],
+      impactScore:89, url:'https://www.congress.gov/bill/119th-congress/senate-bill/748'
+    },
+    {
+      id:'hr-3517', num:'H.R. 3517', chamber:'House', congress:119,
+      title:'Working Families Tax Relief and Child Care Act',
+      sponsor:{name:'Rep. Suzan DelBene', party:'D', state:'WA-01'},
+      cosponsors:67, issues:['Tax','Education'],
+      status:'committee', introduced:'2026-04-08', lastAction:'2026-04-25',
+      lastActionText:'Referred to Ways and Means Subcommittee on Tax',
+      summary:'Permanently expands the Child Tax Credit to $3,600 per child under 6 and $3,000 ages 6-17, restores full refundability, and creates a refundable Caregiver Credit of up to $5,000 for taxpayers caring for elderly relatives. Pays for it with a 21%→25% corporate rate increase.',
+      provisions:[
+        'CTC at $3,600 / $3,000 with full refundability',
+        'New $5,000 refundable Caregiver Credit',
+        'Universal pre-K block grants to states',
+        '$50/hour Earned Income Tax Credit phase-in for childless adults',
+        'Corporate rate to 25% to offset cost'
+      ],
+      impact:'Top messaging vehicle for Democratic suburban play. The corporate-rate pay-for is the political liability — primes a "tax hike" attack. Watch swing-district co-sponsor list as a tell on caucus discipline.',
+      timeline:[
+        {date:'2026-04-25', text:'Referred to Tax Subcommittee', cur:true},
+        {date:'2026-04-08', text:'Introduced and referred to Ways and Means'}
+      ],
+      impactScore:82, url:'https://www.congress.gov/bill/119th-congress/house-bill/3517'
+    },
+    {
+      id:'s-2204', num:'S. 2204', chamber:'Senate', congress:119,
+      title:'NDAA for Fiscal Year 2027',
+      sponsor:{name:'Sen. Roger Wicker', party:'R', state:'MS'},
+      cosponsors:18, issues:['Defense','Foreign Affairs'],
+      status:'committee', introduced:'2026-04-14', lastAction:'2026-04-29',
+      lastActionText:'SASC mark scheduled for late May',
+      summary:'Authorizes $935B in defense spending, $24B above the President\'s request. Includes $7.4B Indo-Pacific Deterrence Initiative boost, mandates Iron Dome / Golden Dome continental missile defense feasibility study, and a 4.5% military pay raise.',
+      provisions:[
+        '$935B topline; $24B above PB request',
+        'Full Columbia-class submarine procurement',
+        'Continental missile defense study and pilot deployment',
+        '4.5% military pay raise (above-EBR cost: $4.1B)',
+        'Bans federal contracting with companies using DJI drones'
+      ],
+      impact:'NDAA always passes — the question is which amendments make it. Watch Ukraine aid conditioning, Section 230 carve-out attempts, and DOGE-style audit provisions. Defense-heavy districts (VA-02, CT-02, FL-01) will showcase votes.',
+      timeline:[
+        {date:'2026-04-29', text:'SASC mark scheduled', cur:true},
+        {date:'2026-04-14', text:'Chairman\'s mark released'}
+      ],
+      impactScore:78, url:'https://www.congress.gov/bill/119th-congress/senate-bill/2204'
+    },
+    {
+      id:'hr-4012', num:'H.R. 4012', chamber:'House', congress:119,
+      title:'Stop Foreign Election Interference Act',
+      sponsor:{name:'Rep. Joe Morelle', party:'D', state:'NY-25'},
+      cosponsors:39, issues:['Voting Rights','Tech & AI'],
+      status:'introduced', introduced:'2026-04-26', lastAction:'2026-04-26',
+      lastActionText:'Introduced and referred to House Administration',
+      summary:'Requires online platforms with >50M MAU to label AI-generated political ads, prohibits foreign nationals from funding any communication that "supports or opposes" a candidate (closing the 501(c)(4) loophole), and gives the FEC enforcement authority over AI-generated deepfake content.',
+      provisions:[
+        'Mandatory AI-content labeling on political ads',
+        'Closes foreign-national funding loophole for issue ads',
+        'FEC jurisdiction over deepfake political content',
+        'Civil penalties up to $250K per violation',
+        'Platform safe harbor for good-faith compliance'
+      ],
+      impact:'Genuinely bipartisan curiosity — election integrity polls well across the spectrum. But the (c)(4) provisions cut against major dark-money players on both sides. Likely lands as messaging bill rather than enacted law in this Congress.',
+      timeline:[
+        {date:'2026-04-26', text:'Introduced and referred to House Administration', cur:true}
+      ],
+      impactScore:73, url:'https://www.congress.gov/bill/119th-congress/house-bill/4012'
+    },
+    {
+      id:'s-1840', num:'S. 1840', chamber:'Senate', congress:119,
+      title:'Farm Bill Reauthorization Act of 2026',
+      sponsor:{name:'Sen. John Boozman', party:'R', state:'AR'},
+      cosponsors:14, issues:['Agriculture','Labor'],
+      status:'passed-chamber', introduced:'2025-11-12', lastAction:'2026-04-19',
+      lastActionText:'Passed Senate 76-22; sent to House',
+      summary:'Five-year reauthorization of farm and nutrition programs. Increases reference prices for major commodities by 11%, expands crop insurance subsidies to specialty crops, and tightens SNAP work requirements for able-bodied adults without dependents from 49 to 54.',
+      provisions:[
+        '11% commodity reference price increase',
+        'Expanded crop insurance for specialty/produce growers',
+        'SNAP ABAWD work requirement age 18-54',
+        '$8B for rural broadband through USDA ReConnect',
+        'Permanent year-round E15 fuel waiver'
+      ],
+      impact:'Rural districts get the commodity wins; suburban Ds will be pressed on the SNAP changes. Watch carve-outs for high-cost-of-living areas and how member offices position the work requirement — frame matters.',
+      timeline:[
+        {date:'2026-04-19', text:'Passed Senate 76-22; sent to House', cur:true},
+        {date:'2026-03-25', text:'Reported out of Ag Committee, 19-3'},
+        {date:'2025-11-12', text:'Introduced in Senate'}
+      ],
+      impactScore:80, url:'https://www.congress.gov/bill/119th-congress/senate-bill/1840'
+    },
+    {
+      id:'hr-2299', num:'H.R. 2299', chamber:'House', congress:119,
+      title:'TRUMP Tariff Trade Adjustment Authority Act',
+      sponsor:{name:'Rep. Don Bacon', party:'R', state:'NE-02'},
+      cosponsors:21, issues:['Trade','Foreign Affairs'],
+      status:'committee', introduced:'2026-02-26', lastAction:'2026-04-09',
+      lastActionText:'Hearings held; Ways and Means markup pending',
+      summary:'Restores Congressional approval requirement for IEEPA-based tariffs above 15%, sunsets all current Section 232 and 301 tariffs in 18 months unless reauthorized, and creates a Trade Adjustment Assistance expansion for small manufacturers hit by retaliation.',
+      provisions:[
+        'Congressional approval for tariffs >15% under IEEPA',
+        '18-month sunset on existing 232/301 tariffs',
+        '$3B small-manufacturer Trade Adjustment Assistance',
+        'WTO compliance certification requirement',
+        'Quarterly tariff economic impact report to Congress'
+      ],
+      impact:'Splits both parties along constituency lines: ag and small manufacturing want relief, steel and union heartland districts want tariff cover. A roll-call vote forces uncomfortable positioning. Watch suburban Republican co-sponsors as canaries.',
+      timeline:[
+        {date:'2026-04-09', text:'Hearings held', cur:true},
+        {date:'2026-02-26', text:'Introduced and referred to Ways and Means'}
+      ],
+      impactScore:76, url:'https://www.congress.gov/bill/119th-congress/house-bill/2299'
+    },
+    {
+      id:'s-955', num:'S. 955', chamber:'Senate', congress:119,
+      title:'Comprehensive Cybersecurity Workforce Investment Act',
+      sponsor:{name:'Sen. Mark Warner', party:'D', state:'VA'},
+      cosponsors:11, issues:['Tech & AI','Defense','Education'],
+      status:'committee', introduced:'2026-02-19', lastAction:'2026-04-21',
+      lastActionText:'Reported favorably out of Homeland Security, 13-2',
+      summary:'Authorizes $4.5B over 5 years for cybersecurity scholarships, creates a federal cyber service academy modeled on the service academies, and expands the CyberCorps Scholarship for Service program to community colleges.',
+      provisions:[
+        'New U.S. Cyber Service Academy (4-year program)',
+        '$4.5B/5yr in CyberCorps scholarship expansion',
+        'Federal cyber registered apprenticeships',
+        'CISA hiring authority reform',
+        'Veterans cyber transition pathway'
+      ],
+      impact:'Quietly bipartisan — likely vehicle for unrelated cyber riders. Low political risk, high "delivers for my district" value. Useful to point to in any tech or workforce-focused campaign messaging.',
+      timeline:[
+        {date:'2026-04-21', text:'Reported out of Homeland Security 13-2', cur:true},
+        {date:'2026-03-12', text:'Hearings held'},
+        {date:'2026-02-19', text:'Introduced'}
+      ],
+      impactScore:62, url:'https://www.congress.gov/bill/119th-congress/senate-bill/955'
+    },
+    {
+      id:'hr-3088', num:'H.R. 3088', chamber:'House', congress:119,
+      title:'Restore the Inflation Reduction Act Tax Credits Act',
+      sponsor:{name:'Rep. Sean Casten', party:'D', state:'IL-06'},
+      cosponsors:88, issues:['Energy & Climate','Tax'],
+      status:'introduced', introduced:'2026-04-23', lastAction:'2026-04-23',
+      lastActionText:'Introduced and referred to Ways and Means',
+      summary:'Reinstates and extends the residential clean energy tax credit (25D), the EV tax credit (30D), and advanced manufacturing production credit (45X) through 2032, after their partial repeal in the 2025 reconciliation package.',
+      provisions:[
+        'Reinstates 25D at 30% through 2032',
+        'EV credit (30D) restored without manufacturing restrictions',
+        '45X advanced manufacturing through 2032',
+        'New small-business solar transition grant',
+        'Domestic content bonus made permanent'
+      ],
+      impact:'Messaging bill in current Congress; tells voters where members stand on clean-energy jobs. Manufacturing-state Republicans (OH, GA, MI) under pressure from local plant operators benefiting from 45X.',
+      timeline:[
+        {date:'2026-04-23', text:'Introduced and referred to Ways and Means', cur:true}
+      ],
+      impactScore:71, url:'https://www.congress.gov/bill/119th-congress/house-bill/3088'
+    },
+    {
+      id:'s-1456', num:'S. 1456', chamber:'Senate', congress:119,
+      title:'American Privacy Rights Act of 2026',
+      sponsor:{name:'Sen. Maria Cantwell', party:'D', state:'WA'},
+      cosponsors:9, issues:['Privacy','Tech & AI'],
+      status:'committee', introduced:'2026-03-05', lastAction:'2026-04-11',
+      lastActionText:'Markup in Commerce Committee scheduled May 22',
+      summary:'Comprehensive federal privacy framework with private right of action, data minimization requirements, opt-out for targeted advertising, and explicit preemption of state privacy laws. Carve-outs for small businesses (<$40M revenue) and non-profits.',
+      provisions:[
+        'Private right of action with $1,000 statutory damages',
+        'Data minimization and purpose limitation',
+        'Universal opt-out preference signal honored by all platforms',
+        'Preempts state privacy laws (CPRA, CCPA, etc.)',
+        'Small-business safe harbor under $40M revenue'
+      ],
+      impact:'The preemption provisions are politically explosive — California delegation likely to oppose en bloc, and ad-tech industry quietly lobbies both sides. Privacy is a bipartisan winner in messaging; the details split coalitions.',
+      timeline:[
+        {date:'2026-04-11', text:'Commerce markup scheduled May 22', cur:true},
+        {date:'2026-03-05', text:'Introduced and referred to Commerce, Science, & Transportation'}
+      ],
+      impactScore:84, url:'https://www.congress.gov/bill/119th-congress/senate-bill/1456'
+    }
+  ],
+
+  regulations: [
+    {
+      id:'epa-2026-001', num:'EPA-HQ-OAR-2026-0103', agency:'Environmental Protection Agency',
+      title:'New Source Performance Standards for Greenhouse Gas Emissions from Existing Power Plants',
+      issues:['Energy & Climate'],
+      status:'proposed', published:'2026-03-18', commentClose:'2026-05-19',
+      lastAction:'2026-04-29',
+      lastActionText:'Comment period extended 30 days; oral hearings scheduled',
+      summary:'Proposes to repeal the 2024 Clean Power Plan 2.0 carbon pollution standards for existing fossil-fuel power plants. Replaces emissions guidelines with state-led "best available technology" determinations, effectively ending federal CCS mandate for coal and gas units.',
+      provisions:[
+        'Repeals 90% capture-or-retire standard for existing plants',
+        'Returns to state-determined Best System of Emission Reduction',
+        'No federal carbon capture mandate for existing units',
+        'Removes 2032/2038 compliance deadlines',
+        'Estimated regulatory savings: $1.8B/year per EPA RIA'
+      ],
+      impact:'Litigation is a near-certainty regardless of finalization path. Coal-state member campaigns will hold this up as concrete delivery; clean-energy state members will tie it to grid reliability and health outcomes.',
+      timeline:[
+        {date:'2026-04-29', text:'Comment period extended; oral hearings set', cur:true},
+        {date:'2026-03-18', text:'Proposed rule published in Federal Register'}
+      ],
+      impactScore:90, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'sec-2026-005', num:'SEC Release No. 33-11329', agency:'Securities and Exchange Commission',
+      title:'Rescission of the Climate-Related Disclosures Rule',
+      issues:['Banking','Energy & Climate'],
+      status:'proposed', published:'2026-02-22', commentClose:'2026-04-22',
+      lastAction:'2026-04-30',
+      lastActionText:'Final rule expected Q3 2026',
+      summary:'Formally rescinds the SEC\'s March 2024 Climate Disclosures Rule that required public companies to report Scope 1 and 2 emissions and material climate risks. Retains general MD&A risk-disclosure obligations but eliminates the prescriptive emissions and assurance framework.',
+      provisions:[
+        'Full rescission of 17 CFR 229.1500-1508',
+        'Eliminates Scope 1 / 2 quantitative disclosure',
+        'Removes attestation/assurance requirements',
+        'Returns to principles-based materiality test',
+        'No safe harbor for forward-looking climate statements'
+      ],
+      impact:'Limited direct campaign salience but useful talking point for finance-industry-heavy donor circles. Watch for state AG lawsuits to keep CA/NY climate disclosure regimes in force.',
+      timeline:[
+        {date:'2026-04-30', text:'Final rule expected Q3 2026', cur:true},
+        {date:'2026-04-22', text:'Comment period closed'},
+        {date:'2026-02-22', text:'Proposed rescission published'}
+      ],
+      impactScore:74, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'fda-2026-002', num:'FDA-2026-N-0428', agency:'Food and Drug Administration',
+      title:'Premarket Notification Pathway for AI/ML-Enabled Medical Devices',
+      issues:['Healthcare','Tech & AI'],
+      status:'final', published:'2026-04-08', commentClose:'2026-02-12',
+      lastAction:'2026-05-01',
+      lastActionText:'Final rule effective July 2026',
+      summary:'Establishes a Predetermined Change Control Plan (PCCP) framework allowing FDA-cleared AI/ML medical devices to be updated post-market without full re-clearance, provided changes stay within the cleared "envelope." Codifies the agency\'s 2023 guidance.',
+      provisions:[
+        'Formal PCCP submission pathway under 510(k)',
+        'Quarterly post-market performance reporting',
+        'Algorithm change protocol requirements',
+        'Clinical equivalence demonstration framework',
+        'Effective July 1, 2026'
+      ],
+      impact:'Industry-friendly modernization with broad bipartisan support. Useful in healthcare-tech district messaging — concrete example of efficient federal regulation.',
+      timeline:[
+        {date:'2026-05-01', text:'Final rule effective July 2026', cur:true},
+        {date:'2026-04-08', text:'Final rule published'},
+        {date:'2025-11-15', text:'Proposed rule published'}
+      ],
+      impactScore:65, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'fcc-2026-003', num:'FCC WC Docket No. 26-104', agency:'Federal Communications Commission',
+      title:'Universal Service Fund Reform: Broadband Equity Integration',
+      issues:['Tech & AI','Infrastructure'],
+      status:'proposed', published:'2026-04-04', commentClose:'2026-06-04',
+      lastAction:'2026-04-25',
+      lastActionText:'Reply comments due June 25',
+      summary:'Proposes to expand USF contribution base from telecom voice revenues to include broadband internet access service revenues, broadening the funding pool by an estimated $4.2B/year, and reauthorizing the Affordable Connectivity Program structure.',
+      provisions:[
+        'Broadband revenues subject to USF contribution',
+        'ACP-style benefit reauthorized via USF',
+        'Lifeline program voice/broadband bundling',
+        'High-cost program reform for rural carriers',
+        'Estimated +$4.2B annual USF pool'
+      ],
+      impact:'Rural-district members will showcase this. The "broadband tax" framing is politically risky — brace for ad attacks on consumer-cost increases. Coalition: rural Rs + urban Ds vs. fiscal Rs + telecom-skeptic Ds.',
+      timeline:[
+        {date:'2026-04-25', text:'Reply comments due June 25', cur:true},
+        {date:'2026-04-04', text:'Notice of Proposed Rulemaking published'}
+      ],
+      impactScore:72, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'dol-2026-007', num:'DOL RIN 1235-AA42', agency:'Department of Labor',
+      title:'Rescission of the 2024 Independent Contractor Classification Rule',
+      issues:['Labor'],
+      status:'final', published:'2026-04-16', commentClose:'2026-03-01',
+      lastAction:'2026-04-16',
+      lastActionText:'Final rule effective May 31, 2026',
+      summary:'Rescinds the 2024 six-factor "economic reality" test for independent contractor classification under the FLSA and reinstates the 2021 rule\'s simpler "core factors" framework, making it easier to classify workers as independent contractors.',
+      provisions:[
+        'Reinstates 2021 ICR core-factors test',
+        'Two primary factors: nature of control + opportunity for profit/loss',
+        'Three secondary factors with reduced weight',
+        'Effective May 31, 2026',
+        'Industry guidance documents to follow'
+      ],
+      impact:'Gig economy and ag/construction-heavy districts: concrete deliverable. Labor-aligned campaigns will frame this as "wage theft enabler." Expect state-level responses (CA AB5 already pre-empts).',
+      timeline:[
+        {date:'2026-04-16', text:'Final rule published; effective May 31', cur:true},
+        {date:'2026-01-08', text:'Proposed rescission published'}
+      ],
+      impactScore:79, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'cms-2026-009', num:'CMS-1842-P', agency:'Centers for Medicare & Medicaid Services',
+      title:'Medicare Advantage and Part D Payment Policies for CY 2027',
+      issues:['Healthcare'],
+      status:'proposed', published:'2026-04-11', commentClose:'2026-06-10',
+      lastAction:'2026-04-11',
+      lastActionText:'Comment period open; final notice expected April 2027',
+      summary:'Proposes a 1.7% effective rate decrease for Medicare Advantage plans in CY 2027 (vs. 3.7% increase last year), continues phase-in of risk adjustment model V28, and tightens marketing rules around third-party brokers.',
+      provisions:[
+        '-1.7% effective rate change (industry-disputed)',
+        'Continued V28 risk model phase-in',
+        'New TPMO (broker) marketing restrictions',
+        'Star ratings methodology updates',
+        'Expanded supplemental benefit reporting'
+      ],
+      impact:'Senior-heavy districts (FL, AZ retirement communities): rate cut becomes "Medicare cuts" attack. MA penetration is now >50% of eligible seniors — this is a top-shelf 2026 issue.',
+      timeline:[
+        {date:'2026-04-11', text:'Comment period open through June 10', cur:true}
+      ],
+      impactScore:86, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'usda-2026-011', num:'USDA-FNS-2026-0028', agency:'USDA Food and Nutrition Service',
+      title:'SNAP: Restrictions on Eligible Food Items',
+      issues:['Agriculture','Healthcare'],
+      status:'proposed', published:'2026-03-29', commentClose:'2026-05-28',
+      lastAction:'2026-04-30',
+      lastActionText:'Comment period extended; final rule timeline uncertain',
+      summary:'Proposes to authorize state-level SNAP waiver requests to exclude sugary drinks, candy, and certain ultra-processed foods from SNAP-eligible purchases. Sets a federal framework for the dozen+ states that have requested similar waivers.',
+      provisions:[
+        'State-by-state opt-in waiver mechanism',
+        'Federal definitions for ineligible categories',
+        'Retailer compliance and reporting requirements',
+        'Exemptions for low-income food-desert areas',
+        'Three-year implementation runway'
+      ],
+      impact:'Polarizing along urban/rural lines and within parties. Public health wins messaging, but "government tells you what to buy" framing has real bite. Watch which Senate Ds break for it.',
+      timeline:[
+        {date:'2026-04-30', text:'Comment period extended', cur:true},
+        {date:'2026-03-29', text:'Proposed rule published'}
+      ],
+      impactScore:77, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'cfpb-2026-013', num:'CFPB-2026-0014', agency:'Consumer Financial Protection Bureau',
+      title:'Credit Card Late Fee Cap Rule Withdrawal',
+      issues:['Banking'],
+      status:'final', published:'2026-04-02', commentClose:'2026-01-15',
+      lastAction:'2026-04-02',
+      lastActionText:'Withdrawal final; effective immediately',
+      summary:'Formally withdraws the 2024 CFPB rule capping credit card late fees at $8 for the largest issuers. Reverts to the existing safe-harbor framework allowing fees up to $30 ($41 for repeat violations).',
+      provisions:[
+        'Full withdrawal of 12 CFR 1026.52(b)(1)(ii) amendments',
+        'Restores $30 / $41 safe-harbor',
+        'No transition period required',
+        'Court-ordered vacatur referenced',
+        'No future rulemaking timeline announced'
+      ],
+      impact:'Pocketbook-issue messaging gold for opposition. National median credit card debt is at record highs — "$8 vs $30" lands cleanly. Useful for any campaign focused on cost-of-living narratives.',
+      timeline:[
+        {date:'2026-04-02', text:'Withdrawal final; effective immediately', cur:true},
+        {date:'2025-12-15', text:'Proposed withdrawal published'}
+      ],
+      impactScore:81, url:'https://www.federalregister.gov/'
+    },
+    {
+      id:'dhs-2026-015', num:'DHS USCIS-2026-0006', agency:'Department of Homeland Security',
+      title:'H-1B Visa Lottery Reform: Wage-Based Selection',
+      issues:['Immigration','Labor','Tech & AI'],
+      status:'proposed', published:'2026-04-19', commentClose:'2026-06-18',
+      lastAction:'2026-04-19',
+      lastActionText:'Comment period open through June 18',
+      summary:'Replaces the current random H-1B lottery with a tiered selection prioritizing the highest-wage offered jobs. Petitions in Wage Level IV (highest) selected first, then descending. Estimated to reduce annual issuances at Wage Levels I-II by ~50%.',
+      provisions:[
+        'Wage-tier-based selection replacing random lottery',
+        'Selection cascades from Level IV to I',
+        'No change to 65,000 / 20,000 statutory caps',
+        'Adjudication timeline targets unchanged',
+        'IT staffing industry expected most affected'
+      ],
+      impact:'Tech-heavy districts split: big tech (employer of high-wage H-1Bs) supports; outsourcing-heavy IT firms strongly oppose. Lawful-immigration framing makes this politically defensible across parties.',
+      timeline:[
+        {date:'2026-04-19', text:'NPRM published; comments through June 18', cur:true}
+      ],
+      impactScore:75, url:'https://www.federalregister.gov/'
+    }
+  ],
+
+  state: [
+    {
+      id:'ca-sb-468', num:'CA SB-468', state:'California', chamber:'Senate', body:'CA Senate',
+      title:'Generative AI Workplace Disclosure Act',
+      sponsor:{name:'Sen. Scott Wiener', party:'D', state:'CA-11'},
+      cosponsors:6, issues:['Tech & AI','Labor','Privacy'],
+      status:'passed-chamber', introduced:'2026-02-13', lastAction:'2026-04-29',
+      lastActionText:'Passed Senate 28-9; sent to Assembly Judiciary',
+      summary:'Requires California employers to disclose to employees any use of generative AI for hiring, performance review, scheduling, or termination decisions. Creates a private right of action with $5,000 minimum statutory damages per violation.',
+      provisions:[
+        'Mandatory pre-deployment notice to affected employees',
+        'Right to request human review of AI decisions',
+        'Private right of action with $5K statutory damages',
+        '4-year recordkeeping requirement',
+        'Retaliation protections for complainants'
+      ],
+      impact:'California precedent-setting for AI labor regulation. Likely model for NY, IL, and other Dem trifectas. Tech companies will lobby Newsom hard on signing — watch the budget side-deal landscape.',
+      timeline:[
+        {date:'2026-04-29', text:'Passed Senate 28-9; sent to Assembly', cur:true},
+        {date:'2026-04-02', text:'Senate Judiciary recommended pass, 8-3'},
+        {date:'2026-02-13', text:'Introduced'}
+      ],
+      impactScore:82, url:'https://leginfo.legislature.ca.gov/'
+    },
+    {
+      id:'tx-sb-7', num:'TX SB-7', state:'Texas', chamber:'Senate', body:'TX Senate',
+      title:'Texas Border Security Enhancement Act of 2026',
+      sponsor:{name:'Sen. Brian Birdwell', party:'R', state:'TX-22'},
+      cosponsors:14, issues:['Immigration'],
+      status:'signed', introduced:'2026-01-14', lastAction:'2026-04-12',
+      lastActionText:'Signed by Governor; effective September 1, 2026',
+      summary:'Creates the Texas Border Protection Force as a separate state law enforcement entity, authorizes state-level prosecution of illegal entry, and appropriates $5.4B over the biennium for border barrier construction and Operation Lone Star continuation.',
+      provisions:[
+        'Texas Border Protection Force (1,800 officers)',
+        'State-level criminal penalty for illegal entry',
+        '$5.4B border infrastructure appropriation',
+        'Operation Lone Star permanent authorization',
+        'Federal preemption challenge anticipated'
+      ],
+      impact:'Test case for state immigration enforcement constitutionality post-Arizona v. US. Federal lawsuit filed within 48 hours of signing. Becomes a defining issue for any TX federal candidate.',
+      timeline:[
+        {date:'2026-04-12', text:'Signed by Governor; effective September 1', cur:true},
+        {date:'2026-04-08', text:'Passed House 84-65'},
+        {date:'2026-03-22', text:'Passed Senate 19-12'},
+        {date:'2026-01-14', text:'Introduced'}
+      ],
+      impactScore:88, url:'https://capitol.texas.gov/'
+    },
+    {
+      id:'ny-a-9482', num:'NY A-9482', state:'New York', chamber:'House', body:'NY Assembly',
+      title:'Health Insurance Premium Affordability Act',
+      sponsor:{name:'Asm. Andrew Hevesi', party:'D', state:'NY-28'},
+      cosponsors:24, issues:['Healthcare'],
+      status:'committee', introduced:'2026-03-04', lastAction:'2026-04-22',
+      lastActionText:'Reported out of Insurance Committee',
+      summary:'Caps annual individual-market health insurance premium increases at 6% absent a successful actuarial appeal, requires 90-day pre-filing review by DFS, and creates a state reinsurance program for individual market plans.',
+      provisions:[
+        '6% premium increase cap with appeal pathway',
+        'Mandatory 90-day DFS pre-filing review',
+        'State reinsurance program ($380M/year)',
+        'Carrier transparency on profit margin and admin costs',
+        'Coverage continuity protections during disputes'
+      ],
+      impact:'Key NY state-level pocketbook issue. Carriers will fight the cap; advocates argue reinsurance offsets actuarial concerns. Useful concrete state example for federal Affordable Care Act expansion arguments.',
+      timeline:[
+        {date:'2026-04-22', text:'Reported out of Insurance Committee', cur:true},
+        {date:'2026-03-04', text:'Introduced'}
+      ],
+      impactScore:73, url:'https://www.nysenate.gov/'
+    },
+    {
+      id:'fl-hb-1421', num:'FL HB-1421', state:'Florida', chamber:'House', body:'FL House',
+      title:'Parental Curriculum Review and Transparency Act',
+      sponsor:{name:'Rep. Lawrence McClure', party:'R', state:'FL-58'},
+      cosponsors:11, issues:['Education','Voting Rights'],
+      status:'signed', introduced:'2026-01-10', lastAction:'2026-04-08',
+      lastActionText:'Signed; effective July 1, 2026',
+      summary:'Requires K-12 districts to publish all instructional materials online 30 days before classroom use, expands parental opt-out to any lesson on race, gender, or sexuality, and creates an expedited grievance process with potential teacher decertification.',
+      provisions:[
+        '30-day online publication of curricula',
+        'Parental opt-out expansion',
+        'Expedited grievance process with state oversight',
+        'Teacher discipline pathway for repeat violations',
+        'School library review requirements'
+      ],
+      impact:'Mirrors federal Parents Bill of Rights debates. Florida\'s implementation becomes the talking point on both sides. Suburban district campaigns nationally will be forced to position.',
+      timeline:[
+        {date:'2026-04-08', text:'Signed; effective July 1', cur:true},
+        {date:'2026-03-29', text:'Passed Senate 28-12'},
+        {date:'2026-03-15', text:'Passed House 84-32'},
+        {date:'2026-01-10', text:'Introduced'}
+      ],
+      impactScore:79, url:'https://www.flsenate.gov/'
+    },
+    {
+      id:'il-hb-3344', num:'IL HB-3344', state:'Illinois', chamber:'House', body:'IL House',
+      title:'Reproductive Health Care Shield Act Expansion',
+      sponsor:{name:'Rep. Kelly Cassidy', party:'D', state:'IL-14'},
+      cosponsors:38, issues:['Healthcare','Privacy'],
+      status:'passed-chamber', introduced:'2026-02-19', lastAction:'2026-04-26',
+      lastActionText:'Passed House 70-44; pending Senate',
+      summary:'Expands Illinois\' shield law for out-of-state patients seeking reproductive care: blocks subpoenas from anti-abortion states, prohibits state agencies from cooperating with extradition for abortion-related charges, and protects digital health data of out-of-state patients.',
+      provisions:[
+        'Shield against subpoenas from restrictive-state law enforcement',
+        'No cooperation with extradition for protected care',
+        'Digital health data protection for patients/providers',
+        'Provider liability protections for telehealth across borders',
+        'Civil cause of action for shield-law violations'
+      ],
+      impact:'Mobilizing issue in suburban swing districts post-Dobbs. Useful federal-campaign messaging vehicle even though state-level. Watch for retaliation by neighboring restrictive states (MO, IN).',
+      timeline:[
+        {date:'2026-04-26', text:'Passed House 70-44', cur:true},
+        {date:'2026-04-02', text:'House Health Committee, 9-5'},
+        {date:'2026-02-19', text:'Introduced'}
+      ],
+      impactScore:85, url:'https://ilga.gov/'
+    },
+    {
+      id:'va-sb-241', num:'VA SB-241', state:'Virginia', chamber:'Senate', body:'VA Senate',
+      title:'Data Center Energy and Water Use Standards Act',
+      sponsor:{name:'Sen. Russet Perry', party:'D', state:'VA-31'},
+      cosponsors:7, issues:['Energy & Climate','Tech & AI'],
+      status:'committee', introduced:'2026-03-11', lastAction:'2026-04-23',
+      lastActionText:'Senate Commerce Committee hearing held',
+      summary:'Requires new data centers above 100MW in Virginia to source 90% of electricity from clean sources by 2030, meet water use efficiency benchmarks, and undergo a community impact review including grid stability and ratepayer cost analysis.',
+      provisions:[
+        '90% clean energy requirement (2030)',
+        'Water use intensity caps by region',
+        'Community impact review with cost-shift analysis',
+        'Mandatory back-up generation emissions standards',
+        'Affordable Energy Tariff for non-data-center ratepayers'
+      ],
+      impact:'Northern Virginia is the world\'s largest data-center market. Genuinely splits Dem coalition: labor + environmentalists vs. tech-aligned Dems. Outcome shapes national conversation on AI infrastructure.',
+      timeline:[
+        {date:'2026-04-23', text:'Senate Commerce hearing held', cur:true},
+        {date:'2026-03-11', text:'Introduced'}
+      ],
+      impactScore:77, url:'https://lis.virginia.gov/'
+    }
+  ],
+
+  executive: [
+    {
+      id:'eo-14201', num:'EO 14201', title:'Restoring American AI Leadership Through Federal Procurement Reform',
+      issues:['Tech & AI','Defense'],
+      status:'active', signed:'2026-02-04', lastAction:'2026-04-18',
+      lastActionText:'OMB implementation guidance released',
+      summary:'Directs all federal agencies to give procurement preference to AI systems developed and trained in the United States, establishes an "American AI" certification standard administered by NIST, and prohibits federal use of foreign-developed frontier models for national security applications.',
+      provisions:[
+        'Procurement preference for U.S.-developed AI',
+        'NIST "American AI" certification standard',
+        'Ban on foreign frontier models in NatSec systems',
+        'Mandatory FedRAMP-AI authorization pathway',
+        'Annual report to Congress on compliance'
+      ],
+      impact:'Industrial-policy pillar of AI strategy. Tech-heavy districts watch implementation closely. Likely litigation by foreign firms; Congressional Ds will probe whether implementation favors specific vendors.',
+      timeline:[
+        {date:'2026-04-18', text:'OMB implementation guidance', cur:true},
+        {date:'2026-02-04', text:'Executive Order signed'}
+      ],
+      impactScore:85, url:'https://www.whitehouse.gov/'
+    },
+    {
+      id:'eo-14195', num:'EO 14195', title:'Securing the Border and Restoring Migration Enforcement',
+      issues:['Immigration','Defense'],
+      status:'active', signed:'2026-01-22', lastAction:'2026-04-30',
+      lastActionText:'Federal court grants partial preliminary injunction',
+      summary:'Directs DHS to suspend asylum processing at the southern border under emergency authorities, deploys National Guard at federal request, and sunsets humanitarian parole programs. Currently partially enjoined by federal court.',
+      provisions:[
+        'Suspension of asylum at southern border',
+        'National Guard deployment authorization',
+        'CHNV parole program termination',
+        'Mandatory detention expansion',
+        'Inadmissibility broadening'
+      ],
+      impact:'Among the most legally contested EOs. Implementation status changes weekly. Members in border districts will be asked about specific enforcement incidents — staff need legislative tracker familiarity.',
+      timeline:[
+        {date:'2026-04-30', text:'Partial preliminary injunction granted', cur:true},
+        {date:'2026-03-15', text:'ACLU/states lawsuit filed'},
+        {date:'2026-01-22', text:'Signed Day 2'}
+      ],
+      impactScore:93, url:'https://www.whitehouse.gov/'
+    },
+    {
+      id:'eo-14188', num:'EO 14188', title:'Unleashing American Energy',
+      issues:['Energy & Climate'],
+      status:'active', signed:'2026-01-21', lastAction:'2026-04-24',
+      lastActionText:'Interior issues 25 LNG export permits',
+      summary:'Reverses Biden-era LNG export pause, terminates ANWR drilling restrictions, restarts Keystone XL permitting review, and directs all agencies to pause climate-related rulemakings pending review under the President\'s national energy emergency declaration.',
+      provisions:[
+        'LNG export pause terminated',
+        'ANWR leasing restarted',
+        'Keystone XL permitting review reopened',
+        'Climate rulemaking moratorium',
+        'National energy emergency declaration'
+      ],
+      impact:'Energy-state campaigns claim direct delivery — measurable in permits issued and rigs deployed. Climate-focused campaigns frame as accelerating physical risk. Both narratives have credible data behind them.',
+      timeline:[
+        {date:'2026-04-24', text:'25 LNG export permits issued', cur:true},
+        {date:'2026-01-21', text:'Signed Day 2'}
+      ],
+      impactScore:90, url:'https://www.whitehouse.gov/'
+    },
+    {
+      id:'eo-14210', num:'EO 14210', title:'Federal Workforce Reform and Schedule F Reinstatement',
+      issues:['Labor'],
+      status:'active', signed:'2026-02-18', lastAction:'2026-04-08',
+      lastActionText:'OPM publishes Schedule F implementation rule',
+      summary:'Reinstates Schedule F job classification for federal employees in policy-influencing positions, exempting them from civil service merit protections. Estimated 50,000+ federal employees reclassified, eligible for at-will removal.',
+      provisions:[
+        'Schedule F reinstated for policy-influencing roles',
+        'Estimated 50,000+ employees reclassified',
+        'At-will removal authority expanded',
+        'OPM implementation rule published',
+        'Federal employee union litigation pending'
+      ],
+      impact:'Civil service reform is politically polarizing. DC-area districts (VA-08, VA-10, MD-08) treat as existential. National implications for federal program administration capacity in 2027+.',
+      timeline:[
+        {date:'2026-04-08', text:'OPM implementation rule published', cur:true},
+        {date:'2026-02-18', text:'Executive Order signed'}
+      ],
+      impactScore:81, url:'https://www.whitehouse.gov/'
+    },
+    {
+      id:'eo-14203', num:'EO 14203', title:'America First Trade Policy',
+      issues:['Trade','Foreign Affairs'],
+      status:'active', signed:'2026-02-01', lastAction:'2026-04-29',
+      lastActionText:'Section 232 review initiated for semiconductors',
+      summary:'Directs USTR and Commerce to conduct comprehensive review of all trade agreements, opens Section 232 national security tariff investigations into semiconductors, pharmaceuticals, and rare earths, and orders renegotiation of USMCA ahead of the 2026 review window.',
+      provisions:[
+        'Comprehensive trade agreement review',
+        'Section 232 reviews: semis, pharma, rare earths',
+        'USMCA renegotiation acceleration',
+        'Reciprocal tariff framework development',
+        'China Phase Two implementation review'
+      ],
+      impact:'Drives weekly market and political volatility. Manufacturing districts cheer; ag-export districts cautious. Watch retaliation announcements as predictive of district-level impact.',
+      timeline:[
+        {date:'2026-04-29', text:'Section 232 semiconductor review initiated', cur:true},
+        {date:'2026-02-01', text:'Executive Order signed'}
+      ],
+      impactScore:87, url:'https://www.whitehouse.gov/'
+    }
+  ]
+};
+
+/* ============== APP STATE ============== */
+const state = {
+  tab:'federal',
+  search:'',
+  issues:new Set(),
+  statuses:new Set(),
+  parties:new Set(),
+  chamber:'any',
+  watchOnly:false,
+  sort:'recent',
+  watchlist:new Set(JSON.parse(localStorageGet('pb_watch','[]') || '[]')),
+  alerts:new Set(JSON.parse(localStorageGet('pb_alerts','[]') || '[]')),
+  alertEmail:localStorageGet('pb_alert_email',''),
+  alertWebhook:localStorageGet('pb_alert_webhook', DEFAULT_FORMSPREE_URL),
+  apiKey:localStorageGet('pb_apikey', DEFAULT_CONGRESS_KEY),
+  openStatesKey:localStorageGet('pb_oskey', DEFAULT_OPENSTATES_KEY),
+  liveRegs:localStorageGet('pb_liveregs','1') === '1',
+  data:DEMO,
+  liveLoaded:false
+};
+
+function localStorageGet(k,fallback){
+  try{ return localStorage.getItem(k) ?? fallback; }catch(e){ return fallback; }
+}
+function localStorageSet(k,v){
+  try{ localStorage.setItem(k,v); }catch(e){}
+}
+
+/* ============== HELPERS ============== */
+const $ = (s,c=document)=>c.querySelector(s);
+const $$ = (s,c=document)=>Array.from(c.querySelectorAll(s));
+
+function fmtDate(s){
+  if(!s) return '—';
+  const d = new Date(s+'T00:00:00');
+  if(isNaN(d)) return s;
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+function relDate(s){
+  if(!s) return '';
+  const d = new Date(s+'T00:00:00');
+  if(isNaN(d)) return '';
+  const diff = (Date.now() - d) / (86400000);
+  if(diff < 1) return 'today';
+  if(diff < 2) return 'yesterday';
+  if(diff < 14) return `${Math.floor(diff)} days ago`;
+  if(diff < 60) return `${Math.floor(diff/7)} weeks ago`;
+  return `${Math.floor(diff/30)} months ago`;
+}
+function debounce(fn,ms=200){
+  let t; return (...a)=>{clearTimeout(t); t=setTimeout(()=>fn(...a),ms);}
+}
+function toast(msg,err=false){
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast show'+(err?' err':'');
+  setTimeout(()=>t.className='toast',2400);
+}
+
+/* ============== RENDER ============== */
+function renderChips(){
+  const ic = $('#issueChips');
+  ic.innerHTML = ISSUES.map(x=>`<span class="chip ${state.issues.has(x)?'active':''}" data-issue="${x}">${x}</span>`).join('');
+  ic.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+    const v = c.dataset.issue;
+    state.issues.has(v) ? state.issues.delete(v) : state.issues.add(v);
+    renderAll();
+  }));
+
+  const sc = $('#statusChips');
+  const tabStatuses = {
+    federal:['introduced','committee','floor','passed-chamber','passed-both','signed','failed'],
+    state:['introduced','committee','floor','passed-chamber','passed-both','signed','failed'],
+    regulations:['proposed','active','final'],
+    executive:['active']
+  }[state.tab];
+  sc.innerHTML = tabStatuses.map(s=>`<span class="chip ${state.statuses.has(s)?'active':''}" data-status="${s}">${STATUS_LABELS[s]}</span>`).join('');
+  sc.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
+    const v = c.dataset.status;
+    state.statuses.has(v) ? state.statuses.delete(v) : state.statuses.add(v);
+    renderAll();
+  }));
+
+  $$('#partyChips .chip').forEach(c=>{
+    c.classList.toggle('active', state.parties.has(c.dataset.party));
+    c.onclick = ()=>{
+      const v = c.dataset.party;
+      state.parties.has(v) ? state.parties.delete(v) : state.parties.add(v);
+      renderAll();
+    };
+  });
+
+  // Toggle visibility of party/chamber filters per tab
+  $$('.filter-group[data-only]').forEach(g=>{
+    const allowed = g.dataset.only.split(',');
+    g.style.display = allowed.includes(state.tab) ? '' : 'none';
+  });
+
+  // Watchlist chip
+  $('#watchOnly').classList.toggle('active', state.watchOnly);
+  $('#watchOnly').onclick = ()=>{ state.watchOnly = !state.watchOnly; renderAll(); };
+}
+
+function applyFilters(items){
+  const q = state.search.trim().toLowerCase();
+  return items.filter(it=>{
+    if(state.watchOnly && !state.watchlist.has(it.id)) return false;
+    if(state.issues.size && !it.issues.some(x=>state.issues.has(x))) return false;
+    if(state.statuses.size && !state.statuses.has(it.status)) return false;
+    if(state.parties.size){
+      if(!it.sponsor || !state.parties.has(it.sponsor.party)) return false;
+    }
+    if(state.chamber!=='any' && it.chamber && it.chamber !== state.chamber) return false;
+    if(q){
+      const hay = [
+        it.title, it.num, it.summary, it.agency,
+        it.sponsor?.name, it.sponsor?.state, it.state,
+        ...(it.issues||[])
+      ].filter(Boolean).join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function sortItems(items){
+  const copy = items.slice();
+  switch(state.sort){
+    case 'impact': copy.sort((a,b)=>(b.impactScore||0)-(a.impactScore||0)); break;
+    case 'introduced': copy.sort((a,b)=>(b.introduced||b.signed||b.published||'').localeCompare(a.introduced||a.signed||a.published||'')); break;
+    case 'alpha': copy.sort((a,b)=>a.title.localeCompare(b.title)); break;
+    default: copy.sort((a,b)=>(b.lastAction||'').localeCompare(a.lastAction||''));
+  }
+  return copy;
+}
+
+function statusBadge(s){
+  return `<span class="status s-${s}"><span class="pip"></span>${STATUS_LABELS[s]||s}</span>`;
+}
+function partyBadge(p){
+  if(!p) return '';
+  const map = {D:'D', R:'R', I:'I'};
+  return `<span class="party ${p}">${map[p]||p}</span>`;
+}
+
+function cardHTML(it){
+  const sponsorBlock = it.sponsor
+    ? `<div title="Sponsor"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${it.sponsor.name} ${partyBadge(it.sponsor.party)}<span style="color:var(--text-3)">·${it.sponsor.state}</span></div>`
+    : it.agency ? `<div title="Agency"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01M9 17h6"/></svg>${it.agency}</div>` : '';
+  const stateBlock = it.state ? `<div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${it.state}</div>` : '';
+  const issuesTags = (it.issues||[]).map(i=>`<span class="tag">${i}</span>`).join('');
+  const isWatch = state.watchlist.has(it.id);
+  const isAlert = state.alerts.has(it.id);
+
+  return `
+    <article class="card" data-id="${it.id}">
+      <div class="card-head">
+        <div style="flex:1;min-width:0">
+          <span class="card-num">${it.num}</span>
+          <span class="card-title">${it.title}</span>
+        </div>
+        <div class="card-actions">
+          ${statusBadge(it.status)}
+          <button class="bell-btn ${isAlert?'active':''}" data-alert="${it.id}" title="${isAlert?'Email alerts on — click to remove':'Get email alerts'}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="${isAlert?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </button>
+          <button class="star-btn ${isWatch?'active':''}" data-star="${it.id}" title="${isWatch?'Remove from watchlist':'Add to watchlist'}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="${isWatch?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="card-meta">
+        ${sponsorBlock}${stateBlock}
+        <div title="Last action"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${it.lastActionText||''} <span style="color:var(--text-3)">· ${relDate(it.lastAction)}</span></div>
+      </div>
+      <div class="summary">
+        <div class="ai-badge">AI</div>
+        <p><strong>What it does:</strong> ${truncate(it.summary, 220)}</p>
+      </div>
+      <div class="card-foot">
+        <div class="tag-row">${issuesTags}</div>
+        <span>Impact <strong style="color:var(--text-1)">${it.impactScore||'—'}</strong>/100</span>
+      </div>
+    </article>
+  `;
+}
+
+function truncate(s,n){
+  if(!s) return '';
+  return s.length<=n ? s : s.slice(0,n-1).replace(/\s+\S*$/,'')+'…';
+}
+
+function render(){
+  const items = sortItems(applyFilters(state.data[state.tab]||[]));
+  const r = $('#results');
+  if(items.length===0){
+    r.innerHTML = `<div class="empty"><div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div><h4>No items match these filters</h4>Try clearing filters or broadening your search.</div>`;
+  } else {
+    r.innerHTML = items.map(cardHTML).join('');
+    r.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('click',(e)=>{
+        if(e.target.closest('[data-star]') || e.target.closest('[data-alert]')) return;
+        openDrawer(card.dataset.id);
+      });
+    });
+    r.querySelectorAll('[data-star]').forEach(b=>{
+      b.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        toggleWatch(b.dataset.star);
+      });
+    });
+    r.querySelectorAll('[data-alert]').forEach(b=>{
+      b.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        toggleAlert(b.dataset.alert);
+      });
+    });
+  }
+
+  $('#resultsCount').textContent = items.length;
+  const tabName = {federal:'Federal Bills',regulations:'Federal Regulations',state:'State Legislation',executive:'Executive Orders'}[state.tab];
+  const filt = [];
+  if(state.search) filt.push(`matching "${state.search}"`);
+  if(state.issues.size) filt.push(`${state.issues.size} issue area${state.issues.size>1?'s':''}`);
+  if(state.statuses.size) filt.push(`${state.statuses.size} status filter${state.statuses.size>1?'s':''}`);
+  if(state.parties.size) filt.push(`${[...state.parties].join('/')} sponsors`);
+  if(state.chamber!=='any') filt.push(state.chamber);
+  if(state.watchOnly) filt.push('watchlist');
+  $('#filterSummary').textContent = `in ${tabName}` + (filt.length ? ' · ' + filt.join(' · ') : '');
+
+  // Tab counts
+  Object.keys(state.data).forEach(t=>{
+    const el = document.querySelector(`[data-count="${t}"]`);
+    if(el) el.textContent = state.data[t].length;
+  });
+
+  // Stats
+  const all = [].concat(...Object.values(state.data));
+  $('#statTotal').textContent = all.length.toLocaleString();
+  const today = new Date(); const ymd = today.toISOString().slice(0,10);
+  const recent = all.filter(x=>{
+    if(!x.lastAction) return false;
+    const d = new Date(x.lastAction+'T00:00:00');
+    return (Date.now() - d) < 86400000*3;
+  }).length;
+  $('#statActions').textContent = recent;
+  $('#statWatch').textContent = state.watchlist.size;
+  $('#statHigh').textContent = all.filter(x=>(x.impactScore||0)>=80).length;
+
+  $('#watchDot').style.display = state.watchlist.size? 'block':'none';
+  $('#updatedAt').textContent = state.liveLoaded ? 'just now (live)' : 'just now';
+}
+
+function renderAll(){ renderChips(); render(); }
+
+/* ============== TABS ============== */
+$$('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    $$('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    state.tab = t.dataset.tab;
+    state.statuses.clear();
+    renderAll();
+  });
+});
+
+/* ============== SEARCH ============== */
+$('#searchInput').addEventListener('input', debounce((e)=>{
+  state.search = e.target.value;
+  render();
+},120));
+document.addEventListener('keydown',(e)=>{
+  if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'){
+    e.preventDefault(); $('#searchInput').focus();
+  }
+  if(e.key==='Escape'){ closeDrawer(); closeSettings(); closeAlertBar(); }
+});
+
+/* ============== CHAMBER / SORT ============== */
+$$('input[name=chamber]').forEach(r=>r.addEventListener('change',(e)=>{
+  state.chamber = e.target.value; render();
+}));
+$('#sortSel').addEventListener('change',(e)=>{ state.sort = e.target.value; render(); });
+$('#clearFilters').addEventListener('click',()=>{
+  state.search = ''; $('#searchInput').value='';
+  state.issues.clear(); state.statuses.clear(); state.parties.clear();
+  state.chamber='any'; state.watchOnly=false;
+  $$('input[name=chamber]')[0].checked = true;
+  renderAll();
+});
+
+/* ============== WATCHLIST ============== */
+function toggleWatch(id){
+  if(state.watchlist.has(id)){ state.watchlist.delete(id); toast('Removed from watchlist'); }
+  else { state.watchlist.add(id); toast('Added to watchlist'); }
+  localStorageSet('pb_watch', JSON.stringify([...state.watchlist]));
+  render();
+  if($('#drawer').classList.contains('open')){
+    const id2 = $('#drawer').dataset.id;
+    if(id2) openDrawer(id2,true);
+  }
+}
+$('#watchlistBtn').addEventListener('click',()=>{
+  state.watchOnly = !state.watchOnly; renderAll();
+});
+
+/* ============== EMAIL ALERTS ============== */
+function openAlertBar(id){
+  const it = findItem(id); if(!it) return;
+  const bar = $('#alertBar');
+  bar.dataset.id = id;
+  $('#alertContext').textContent = `${it.num} — ${truncate(it.title, 70)}`;
+  $('#alertEmailInput').value = state.alertEmail || '';
+  bar.classList.add('open');
+  setTimeout(()=>$('#alertEmailInput').focus(), 220);
+}
+function closeAlertBar(){
+  $('#alertBar').classList.remove('open');
+  $('#alertBar').removeAttribute('data-id');
+}
+function toggleAlert(id){
+  if(state.alerts.has(id)){
+    state.alerts.delete(id);
+    localStorageSet('pb_alerts', JSON.stringify([...state.alerts]));
+    toast('Email alert removed');
+    render();
+    if($('#drawer').classList.contains('open')){
+      const id2 = $('#drawer').dataset.id;
+      if(id2) openDrawer(id2, true);
+    }
+  } else {
+    openAlertBar(id);
+  }
+}
+async function submitAlertEmail(){
+  const id = $('#alertBar').dataset.id;
+  if(!id) return;
+  const email = $('#alertEmailInput').value.trim();
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    toast('Please enter a valid email', true);
+    $('#alertEmailInput').focus();
+    return;
+  }
+  state.alerts.add(id);
+  state.alertEmail = email;
+  localStorageSet('pb_alerts', JSON.stringify([...state.alerts]));
+  localStorageSet('pb_alert_email', email);
+
+  // Forward signup to Formspree (or any compatible JSON endpoint)
+  if(state.alertWebhook){
+    try{
+      const it = findItem(id);
+      const category = Object.keys(state.data).find(k=>state.data[k].some(x=>x.id===id)) || '';
+      const res = await fetch(state.alertWebhook, {
+        method:'POST',
+        headers:{
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          _replyto: email,
+          _subject: `Pipeline Bee alert signup — ${it?.num || id}`,
+          billId:id,
+          billNumber:it?.num,
+          billTitle:it?.title,
+          category,
+          status:it?.status,
+          sourceUrl:it?.url,
+          subscribedAt:new Date().toISOString()
+        })
+      });
+      if(!res.ok) console.warn('Formspree returned', res.status);
+    }catch(err){
+      console.warn('Alert webhook failed:', err);
+      // Don't block UX — local subscription still saved
+    }
+  }
+
+  closeAlertBar();
+  toast(`Alert set — ${email} will be notified on updates`);
+  render();
+  if($('#drawer').classList.contains('open')){
+    const id2 = $('#drawer').dataset.id;
+    if(id2) openDrawer(id2, true);
+  }
+}
+$('#alertOkBtn').addEventListener('click', submitAlertEmail);
+$('#alertCloseBtn').addEventListener('click', closeAlertBar);
+$('#alertEmailInput').addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){ e.preventDefault(); submitAlertEmail(); }
+  if(e.key==='Escape'){ closeAlertBar(); }
+});
+
+/* ============== DRAWER ============== */
+function findItem(id){
+  for(const k of Object.keys(state.data)){
+    const f = state.data[k].find(x=>x.id===id);
+    if(f) return f;
+  }
+  return null;
+}
+function openDrawer(id, refreshOnly=false){
+  const it = findItem(id); if(!it) return;
+  const d = $('#drawer'); d.dataset.id = id;
+  $('#dNum').textContent = it.num;
+  $('#dExternal').href = it.url || '#';
+
+  const sponsorBlock = it.sponsor
+    ? `<div title="Sponsor"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><strong style="color:var(--text-1);font-weight:600">${it.sponsor.name}</strong> ${partyBadge(it.sponsor.party)} <span>·${it.sponsor.state}</span></div>`
+    : it.agency ? `<div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01M9 17h6"/></svg>${it.agency}</div>` : '';
+  const stateBlock = it.state ? `<div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${it.state}</div>` : '';
+
+  const kvs = [];
+  if(it.cosponsors!=null) kvs.push({k:'Cosponsors',v:it.cosponsors});
+  if(it.chamber) kvs.push({k:'Chamber',v:it.chamber});
+  if(it.congress) kvs.push({k:'Congress',v:`${it.congress}th`});
+  if(it.introduced) kvs.push({k:'Introduced',v:fmtDate(it.introduced)});
+  if(it.signed) kvs.push({k:'Signed',v:fmtDate(it.signed)});
+  if(it.published) kvs.push({k:'Published',v:fmtDate(it.published)});
+  if(it.commentClose) kvs.push({k:'Comments close',v:fmtDate(it.commentClose)});
+  kvs.push({k:'Impact score',v:`${it.impactScore||'—'}/100`});
+
+  $('#drawerBody').innerHTML = `
+    <h2>${it.title}</h2>
+    <div class="sub">
+      ${statusBadge(it.status)}
+      ${sponsorBlock}${stateBlock}
+      <div><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${it.lastActionText} · ${fmtDate(it.lastAction)}</div>
+    </div>
+
+    <div class="section">
+      <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>AI Summary</h3>
+      <div class="ai-block">
+        <div class="badge"><span class="dot"></span>Pipeline Bee · plain-English brief</div>
+        <p>${it.summary}</p>
+        <div style="margin-top:14px;font-size:12.5px;font-weight:700;color:var(--pb-dark);letter-spacing:.04em;text-transform:uppercase">Key provisions</div>
+        <ul>${(it.provisions||[]).map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z"/><path d="M12 22V12"/><polyline points="3.27 6.96 12 12 20.73 6.96"/></svg>Why it matters</h3>
+      <div class="impact"><h4>Campaign & committee impact</h4><p>${it.impact}</p></div>
+    </div>
+
+    <div class="section">
+      <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Recent timeline</h3>
+      <div class="timeline">
+        ${(it.timeline||[]).map(t=>`<div class="tline ${t.cur?'cur':''}"><div class="date">${fmtDate(t.date)}</div><div class="what">${t.text}</div></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Details</h3>
+      <div class="kvs">
+        ${kvs.map(x=>`<div class="kv"><div class="k">${x.k}</div><div class="v">${x.v}</div></div>`).join('')}
+      </div>
+      ${(it.issues||[]).length?`<div style="margin-top:14px"><div style="font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px">Issue areas</div><div class="tag-row">${it.issues.map(i=>`<span class="tag">${i}</span>`).join('')}</div></div>`:''}
+    </div>
+  `;
+
+  // Star button state
+  const starBtn = $('#dStarBtn');
+  const isWatch = state.watchlist.has(id);
+  starBtn.classList.toggle('active', isWatch);
+  starBtn.style.color = isWatch? 'var(--pb)' : '';
+  starBtn.querySelector('svg').setAttribute('fill', isWatch?'currentColor':'none');
+  starBtn.onclick = ()=>toggleWatch(id);
+
+  // Bell button state
+  const bellBtn = $('#dBellBtn');
+  const isAlert = state.alerts.has(id);
+  bellBtn.style.color = isAlert? 'var(--pb)' : '';
+  bellBtn.style.background = isAlert? 'var(--pb-100)' : '';
+  bellBtn.querySelector('svg').setAttribute('fill', isAlert?'currentColor':'none');
+  bellBtn.title = isAlert ? 'Email alerts on — click to remove' : 'Get email alerts';
+  bellBtn.onclick = ()=>toggleAlert(id);
+
+  if(!refreshOnly){
+    d.classList.add('open'); d.setAttribute('aria-hidden','false');
+    $('#scrim').classList.add('open');
+  }
+}
+function closeDrawer(){
+  $('#drawer').classList.remove('open'); $('#drawer').setAttribute('aria-hidden','true');
+  $('#scrim').classList.remove('open');
+}
+$('#dClose').addEventListener('click', closeDrawer);
+$('#scrim').addEventListener('click', closeDrawer);
+
+/* ============== SETTINGS ============== */
+function openSettings(){
+  $('#apiKeyInput').value = state.apiKey || '';
+  $('#osKeyInput').value = state.openStatesKey || '';
+  $('#liveRegs').checked = state.liveRegs;
+  $('#webhookInput').value = state.alertWebhook || '';
+  $('#settingsModal').classList.add('open');
+}
+function closeSettings(){ $('#settingsModal').classList.remove('open'); }
+$('#settingsBtn').addEventListener('click', openSettings);
+$('#closeSettings').addEventListener('click', closeSettings);
+$('#settingsModal').addEventListener('click',(e)=>{ if(e.target===e.currentTarget) closeSettings(); });
+
+$('#saveSettings').addEventListener('click', async ()=>{
+  state.apiKey = $('#apiKeyInput').value.trim();
+  state.openStatesKey = $('#osKeyInput').value.trim();
+  state.liveRegs = $('#liveRegs').checked;
+  state.alertWebhook = $('#webhookInput').value.trim();
+  localStorageSet('pb_apikey', state.apiKey);
+  localStorageSet('pb_oskey', state.openStatesKey);
+  localStorageSet('pb_liveregs', state.liveRegs?'1':'0');
+  localStorageSet('pb_alert_webhook', state.alertWebhook);
+  closeSettings();
+
+  if(state.apiKey || state.openStatesKey || state.liveRegs){
+    toast('Syncing live data…');
+    await syncLive();
+  } else {
+    state.data = DEMO; state.liveLoaded = false;
+    updateLivePill();
+    renderAll();
+  }
+});
+
+function updateLivePill(){
+  const pill = $('#livePill');
+  const label = $('#livePillLabel');
+  const live = state.liveLoaded;
+  pill.classList.toggle('is-live', live);
+  label.textContent = live ? 'Live data' : 'Demo data';
+}
+
+/* ============== LIVE DATA — Congress.gov + Federal Register ============== */
+async function fetchCongressBills(){
+  if(!state.apiKey) return null;
+  const url = `https://api.congress.gov/v3/bill/119?api_key=${encodeURIComponent(state.apiKey)}&limit=20&sort=updateDate+desc&format=json`;
+  try{
+    const res = await fetch(url);
+    if(!res.ok) throw new Error(`Congress.gov ${res.status}`);
+    const j = await res.json();
+    if(!j.bills) return null;
+    return j.bills.map(b=>{
+      const num = `${b.type} ${b.number}`;
+      const chamber = b.originChamber || (String(b.type).startsWith('H')?'House':'Senate');
+      const id = `cg-${b.type}-${b.number}`;
+      const lastAction = (b.latestAction||{}).actionDate;
+      const lastText = (b.latestAction||{}).text || '—';
+      const status = inferStatus(lastText);
+      return {
+        id, num, chamber, congress:b.congress,
+        title: b.title || 'Untitled bill',
+        sponsor: null, // Congress.gov bill list does not include sponsor in v3 list; would need detail call
+        cosponsors: null,
+        issues: [],
+        status,
+        introduced: b.introducedDate, lastAction,
+        lastActionText: lastText,
+        summary: b.title || 'Live record from Congress.gov. Open the source for full text and metadata.',
+        provisions: ['Live record — full provisions available via Congress.gov source link.'],
+        impact: 'Live record. Connect a fuller analysis pipeline (CRS summaries, AI brief generation) to populate this section automatically.',
+        timeline: [{date:lastAction, text:lastText, cur:true}],
+        impactScore: 60,
+        url: b.url || `https://www.congress.gov/bill/${b.congress}th-congress/${chamber.toLowerCase()}-bill/${b.number}`
+      };
+    });
+  } catch(err){
+    console.warn('Congress.gov fetch failed:', err);
+    toast('Could not reach Congress.gov — check your API key', true);
+    return null;
+  }
+}
+
+function inferStatus(text){
+  const t = (text||'').toLowerCase();
+  if(t.includes('became public law') || t.includes('signed')) return 'signed';
+  if(t.includes('passed senate') || t.includes('passed house')) return 'passed-chamber';
+  if(t.includes('passed both') || t.includes('engrossed amendments')) return 'passed-both';
+  if(t.includes('on the floor') || t.includes('floor')) return 'floor';
+  if(t.includes('committee')) return 'committee';
+  if(t.includes('failed') || t.includes('withdrawn')) return 'failed';
+  return 'introduced';
+}
+
+async function fetchFederalRegister(){
+  if(!state.liveRegs) return null;
+  const url = `https://www.federalregister.gov/api/v1/documents.json?conditions[type][]=PRORULE&conditions[type][]=RULE&per_page=15&order=newest`;
+  try{
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('Federal Register '+res.status);
+    const j = await res.json();
+    if(!j.results) return null;
+    return j.results.map(r=>{
+      const status = r.type==='Rule' ? 'final' : 'proposed';
+      return {
+        id:`fr-${r.document_number}`,
+        num:r.document_number,
+        agency:(r.agencies||[]).map(a=>a.name).join(', ') || 'Federal Agency',
+        title:r.title,
+        issues:[],
+        status,
+        published:r.publication_date,
+        commentClose:r.comments_close_on,
+        lastAction:r.publication_date,
+        lastActionText:`${r.type} published in Federal Register`,
+        summary:r.abstract || 'Live record from the Federal Register. Open the source for the full text of the rulemaking.',
+        provisions:['Live record — full provisions available in the Federal Register source link.'],
+        impact:'Live record. Pair with stakeholder analysis to surface campaign- and committee-relevant impact.',
+        timeline:[{date:r.publication_date, text:`${r.type} published`, cur:true}],
+        impactScore:65,
+        url:r.html_url
+      };
+    });
+  }catch(err){
+    console.warn('Federal Register fetch failed:', err);
+    toast('Federal Register fetch failed', true);
+    return null;
+  }
+}
+
+const STATE_ABBR = {
+  'Alabama':'AL','Alaska':'AK','Arizona':'AZ','Arkansas':'AR','California':'CA','Colorado':'CO',
+  'Connecticut':'CT','Delaware':'DE','Florida':'FL','Georgia':'GA','Hawaii':'HI','Idaho':'ID',
+  'Illinois':'IL','Indiana':'IN','Iowa':'IA','Kansas':'KS','Kentucky':'KY','Louisiana':'LA',
+  'Maine':'ME','Maryland':'MD','Massachusetts':'MA','Michigan':'MI','Minnesota':'MN',
+  'Mississippi':'MS','Missouri':'MO','Montana':'MT','Nebraska':'NE','Nevada':'NV',
+  'New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC',
+  'North Dakota':'ND','Ohio':'OH','Oklahoma':'OK','Oregon':'OR','Pennsylvania':'PA',
+  'Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD','Tennessee':'TN','Texas':'TX',
+  'Utah':'UT','Vermont':'VT','Virginia':'VA','Washington':'WA','West Virginia':'WV',
+  'Wisconsin':'WI','Wyoming':'WY','District of Columbia':'DC'
+};
+function stateAbbr(name){ return STATE_ABBR[name] || (name||'').slice(0,2).toUpperCase(); }
+
+async function fetchOpenStates(){
+  if(!state.openStatesKey) return null;
+  const url = `https://v3.openstates.org/bills?sort=updated_desc&per_page=20&include=sponsorships`;
+  try{
+    const res = await fetch(url, { headers:{ 'X-API-Key': state.openStatesKey } });
+    if(!res.ok) throw new Error('OpenStates '+res.status);
+    const j = await res.json();
+    if(!j.results) return null;
+    return j.results.map(b => {
+      const sponsor = (b.sponsorships||[])[0];
+      const stName = b.jurisdiction?.name || '';
+      const stAb = stateAbbr(stName);
+      const lastAction = b.latest_action_date ? b.latest_action_date.slice(0,10) : null;
+      const lastActionText = b.latest_action_description || 'Updated';
+      const fromOrg = (b.from_organization && b.from_organization.classification) || '';
+      const chamber = fromOrg === 'lower' ? 'House' : (fromOrg === 'upper' ? 'Senate' : '');
+      return {
+        id: `os-${b.id}`,
+        num: `${stAb} ${b.identifier}`,
+        state: stName,
+        chamber,
+        body: b.from_organization?.name || '',
+        title: b.title || 'Untitled',
+        sponsor: sponsor ? { name: sponsor.name, party: sponsor.party || 'I', state: stAb } : null,
+        cosponsors: Math.max(0, (b.sponsorships||[]).length - 1),
+        issues: (b.subject || []).slice(0,3),
+        status: inferStatus(lastActionText),
+        introduced: (b.first_action_date||'').slice(0,10) || null,
+        lastAction,
+        lastActionText,
+        summary: b.title || 'Live state legislative record from OpenStates.',
+        provisions: ['Live record from OpenStates — open the source link for full text, history, and sponsorships.'],
+        impact: 'Live state record. Pair with constituency analysis to surface campaign- and committee-relevant impact.',
+        timeline: [{ date: lastAction, text: lastActionText, cur: true }],
+        impactScore: 60,
+        url: b.openstates_url || `https://openstates.org/${stAb}/bills/${b.session}/${encodeURIComponent(b.identifier)}/`
+      };
+    });
+  } catch(err){
+    console.warn('OpenStates fetch failed:', err);
+    toast('OpenStates fetch failed — check your key', true);
+    return null;
+  }
+}
+
+async function fetchExecutiveOrders(){
+  if(!state.liveRegs) return null;
+  const url = `https://www.federalregister.gov/api/v1/documents.json?conditions[type][]=PRESDOCU&conditions[presidential_document_type][]=executive_order&per_page=15&order=newest`;
+  try{
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('Federal Register EO '+res.status);
+    const j = await res.json();
+    if(!j.results) return null;
+    return j.results.map(r => {
+      const signed = r.signing_date || r.publication_date;
+      const eoNum = r.executive_order_number ? `EO ${r.executive_order_number}` : (r.document_number || 'Executive Order');
+      return {
+        id: `ferc-eo-${r.document_number}`,
+        num: eoNum,
+        title: r.title,
+        issues: (r.topics||[]).slice(0,3),
+        status: 'active',
+        signed,
+        lastAction: r.publication_date,
+        lastActionText: 'Published in Federal Register',
+        summary: r.abstract || 'Live executive order from the Federal Register. Open the source for the full text.',
+        provisions: ['Live record — full provisions available via the Federal Register source link.'],
+        impact: 'Live record. Pair with agency-implementation tracking to monitor concrete rollout milestones.',
+        timeline: [
+          { date: r.publication_date, text: 'Published in Federal Register', cur: true },
+          ...(r.signing_date && r.signing_date !== r.publication_date ? [{ date: r.signing_date, text: 'Signed by the President' }] : [])
+        ],
+        impactScore: 78,
+        url: r.html_url
+      };
+    });
+  } catch(err){
+    console.warn('Federal Register EO fetch failed:', err);
+    toast('Executive Orders fetch failed', true);
+    return null;
+  }
+}
+
+async function syncLive(){
+  let federal=null, regs=null, stateData=null, eos=null;
+  try{
+    [federal, regs, stateData, eos] = await Promise.all([
+      fetchCongressBills(),
+      fetchFederalRegister(),
+      fetchOpenStates(),
+      fetchExecutiveOrders()
+    ]);
+  }catch(e){ console.warn(e); }
+  // Merge: live data takes precedence per category, but always keep at least demo if live failed.
+  const merged = {
+    federal: federal && federal.length ? federal : DEMO.federal,
+    regulations: regs && regs.length ? regs : DEMO.regulations,
+    state: stateData && stateData.length ? stateData : DEMO.state,
+    executive: eos && eos.length ? eos : DEMO.executive
+  };
+  state.data = merged;
+  state.liveLoaded = !!(federal && federal.length)
+                  || !!(regs && regs.length)
+                  || !!(stateData && stateData.length)
+                  || !!(eos && eos.length);
+  updateLivePill();
+  if(state.liveLoaded) toast('Live data synced'); else toast('Showing demo data');
+  renderAll();
+}
+
+/* ============== INIT ============== */
+function init(){
+  renderAll();
+  updateLivePill();
+  // Kick off live sync if any source is configured
+  if(state.apiKey || state.openStatesKey || state.liveRegs){
+    syncLive();
+  }
+}
+init();
+</script>
+</body>
+</html>
